@@ -53,12 +53,12 @@ void request()
       //e.g. it's impossible to access fields with reflection
       case Response.Unsupported<C_Field> unsupported -> Assertions.fail();
       //the implementation may support this operation, but there is no
-      //result for this instance
+      //parts for this instance
       //e.g. the class java.lang.System does not have a field called "out"
       case Response.Empty<C_Field> empty -> Assertions.fail();
       //accessing fields via reflection is possible and java.lang.System
-      //does have a field called "out" therefore a result is expected
-      case Response.Result<C_Field> result -> assertNotNull(result.value());
+      //does have a field called "out" therefore a parts is expected
+      case Response.Result<C_Field> parts -> assertNotNull(parts.value());
    }
 }
 ```
@@ -114,16 +114,16 @@ This Annotation Processor generates Builder
 
 
 ``` highlightjs
-package io.determann.shadow.builder;
+package com.derivandi.shadow.builder;
 
 import annotation_processing.api.com.derivandi.Ap;
-import io.determann.shadow.api.dsl.Dsl;
-import io.determann.shadow.api.dsl.class_.ClassBodyStep;
+import com.derivandi.shadow.api.dsl.Dsl;
+import com.derivandi.shadow.api.dsl.class_.ClassBodyStep;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.determann.shadow.api.dsl.RenderingContext.createRenderingContext;
+import static com.derivandi.shadow.api.dsl.RenderingContext.createRenderingContext;
 import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.uncapitalize;

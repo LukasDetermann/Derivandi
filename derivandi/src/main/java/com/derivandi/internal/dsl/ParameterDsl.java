@@ -69,7 +69,7 @@ public class ParameterDsl
    {
       return setTypeRenderer(new ParameterDsl(this),
                              variableType,
-                             (renderingContext, renderable) -> renderable.renderName(renderingContext),
+                             (renderingContext, renderable) -> renderable.renderType(renderingContext),
                              (parameterDsl, renderer) -> parameterDsl.type = renderer);
    }
 
@@ -86,27 +86,30 @@ public class ParameterDsl
    }
 
    @Override
-   public String renderDeclaration(RenderingContext renderingContext)
+   public String renderDeclaration(RenderingContext context1)
    {
-      StringBuilder sb = new StringBuilder();
-
-      renderElement(sb, annotations, " ", renderingContext, " ");
-
-      if (isFinal)
+      return context1.withSurrounding(this, context ->
       {
-         sb.append("final ");
-      }
+         StringBuilder sb = new StringBuilder();
 
-      sb.append(type.render(renderingContext));
+         renderElement(sb, annotations, " ", context, " ");
 
-      if (isVarArgs)
-      {
-         sb.append("...");
-      }
-      sb.append(" ");
-      sb.append(name);
+         if (isFinal)
+         {
+            sb.append("final ");
+         }
 
-      return sb.toString();
+         sb.append(type.render(context));
+
+         if (isVarArgs)
+         {
+            sb.append("...");
+         }
+         sb.append(" ");
+         sb.append(name);
+
+         return sb.toString();
+      });
    }
 
    @Override

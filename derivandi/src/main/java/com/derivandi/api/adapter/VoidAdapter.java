@@ -1,7 +1,7 @@
 package com.derivandi.api.adapter;
 
 import com.derivandi.api.D;
-import com.derivandi.internal.shadow.type.VoidImpl;
+import com.derivandi.internal.type.VoidImpl;
 
 import javax.lang.model.type.NoType;
 

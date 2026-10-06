@@ -1,7 +1,7 @@
 package com.derivandi.api.adapter;
 
 import com.derivandi.api.D;
-import com.derivandi.internal.shadow.structure.VariableImpl;
+import com.derivandi.internal.structure.VariableImpl;
 
 import javax.lang.model.element.VariableElement;
 

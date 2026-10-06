@@ -1,3 +1,7 @@
 * xref:index.adoc[Overview]
+* Introductions
+** xref:Intro for new.adoc[new to metaprogramming]
+** xref:Intro with meta.adoc[proficient in reflection]
+** xref:Intro with apt.adoc[proficient in annotation processing]
 * Articles
 ** xref:AptLoading.adoc[]

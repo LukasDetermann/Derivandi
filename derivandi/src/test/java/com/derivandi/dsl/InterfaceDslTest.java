@@ -130,6 +130,7 @@ class InterfaceDslTest
                    
                    interface MyInterface {
                       String s;
+                      
                       private int i;
                    }""",
                    INTERFACE.name("MyInterface")
@@ -146,6 +147,7 @@ class InterfaceDslTest
                    
                    interface MyInterface {
                       abstract void foo() {}
+                      
                       String myMethod() {}
                    
                    }""",
@@ -163,6 +165,7 @@ class InterfaceDslTest
                    
                    interface MyInterface {
                       interface Inner {}
+                      
                       interface Inner2 {
                       }
                    

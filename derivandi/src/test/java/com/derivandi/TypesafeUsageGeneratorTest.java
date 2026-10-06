@@ -1,12 +1,12 @@
 package com.derivandi;
 
 import com.derivandi.api.D;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static com.derivandi.api.dsl.RenderingContext.createRenderingContext;
 import static com.derivandi.api.test.ProcessorTest.processorTest;
 import static com.derivandi.internal.TypesafeUsageGenerator.createTypeSafeUsage;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TypesafeUsageGeneratorTest
 {
@@ -35,6 +35,11 @@ class TypesafeUsageGeneratorTest
                                         }""")
                      .process(context ->
                               {
+                                 if (!context.isFirstRound())
+                                 {
+                                    return;
+                                 }
+
                                  D.Annotation myAnnotation = context.getAnnotationOrThrow("MyAnnotation");
 
                                  String declaration = createTypeSafeUsage(myAnnotation).renderDeclaration(createRenderingContext());
@@ -42,28 +47,29 @@ class TypesafeUsageGeneratorTest
                                        "date = \"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+\"\\)",
                                        "date = \"1970-01-01T00:00:00.0000000\")");
 
-                                 Assertions.assertEquals(EXPECTED, withTimeVariance);
+                                 assertEquals(EXPECTED, withTimeVariance);
                               });
    }
 
    private static final String EXPECTED = """
                                           import java.util.Objects;
-                                          import java.util.Map;
-                                          import io.determann.shadow.api.query.Implementation;
-                                          import static io.determann.shadow.api.query.Provider.requestOrThrow;
-                                          import static io.determann.shadow.api.query.Operations.*;
-                                          import io.determann.shadow.api.annotation_processing.Ap;
+                                          import com.derivandi.api.dsl.RenderingContext;
+                                          import com.derivandi.api.Origin;
+                                          import com.derivandi.api.D;
                                           import javax.annotation.processing.Generated;
-                                          import io.determann.shadow.api.C;
+                                          import java.lang.annotation.RetentionPolicy;
+                                          import java.util.List;
+                                          import java.util.Map;
                                           
                                           @Generated(value = "com.derivandi.internal.TypesafeUsageGenerator", date = "1970-01-01T00:00:00.0000000")
-                                          public class MyAnnotationTypesafeUsage implements Ap.AnnotationUsage {
+                                          public class MyAnnotationTypesafeUsage implements D.AnnotationUsage {
+                                          
                                              private static final String QUALIFIED_ANNOTATION_NAME = "MyAnnotation";
-                                             private final C.AnnotationUsage myAnnotation;
-                                             public MyAnnotationTypesafeUsage(C.AnnotationUsage usage) {
+                                             private final D.AnnotationUsage myAnnotation;
+                                             public MyAnnotationTypesafeUsage(D.AnnotationUsage usage) {
                                                 Objects.requireNonNull(usage);
-                                                C.Annotation annotation = requestOrThrow(usage, ANNOTATION_USAGE_GET_ANNOTATION);
-                                                String qualifiedName = requestOrThrow(annotation, QUALIFIED_NAMEABLE_GET_QUALIFIED_NAME);
+                                          
+                                                String qualifiedName = usage.getAnnotation().getQualifiedName();
                                           
                                                 if (!QUALIFIED_ANNOTATION_NAME.equals(qualifiedName)) {
                                           
@@ -73,56 +79,137 @@ class TypesafeUsageGeneratorTest
                                                 this.myAnnotation = usage;
                                              }
                                           
-                                             public Ap.AnnotationValue.StringValue string() {
-                                                return (Ap.AnnotationValue.StringValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "string");
+                                             public String string() {
+                                                return (String) myAnnotation.getValueOrThrow("string").getValue();
                                              }
-                                             public Ap.AnnotationValue.BooleanValue boolean_() {
-                                                return (Ap.AnnotationValue.BooleanValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "boolean_");
+                                          
+                                             public D.AnnotationValue.StringValue stringValue() {
+                                                return (D.AnnotationValue.StringValue) myAnnotation.getValueOrThrow("string");
                                              }
-                                             public Ap.AnnotationValue.ByteValue byte_() {
-                                                return (Ap.AnnotationValue.ByteValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "byte_");
+                                          
+                                             public boolean boolean_() {
+                                                return (boolean) myAnnotation.getValueOrThrow("boolean_").getValue();
                                              }
-                                             public Ap.AnnotationValue.ShortValue short_() {
-                                                return (Ap.AnnotationValue.ShortValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "short_");
+                                          
+                                             public D.AnnotationValue.BooleanValue boolean_Value() {
+                                                return (D.AnnotationValue.BooleanValue) myAnnotation.getValueOrThrow("boolean_");
                                              }
-                                             public Ap.AnnotationValue.IntegerValue int_() {
-                                                return (Ap.AnnotationValue.IntegerValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "int_");
+                                          
+                                             public byte byte_() {
+                                                return (byte) myAnnotation.getValueOrThrow("byte_").getValue();
                                              }
-                                             public Ap.AnnotationValue.LongValue long_() {
-                                                return (Ap.AnnotationValue.LongValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "long_");
+                                          
+                                             public D.AnnotationValue.ByteValue byte_Value() {
+                                                return (D.AnnotationValue.ByteValue) myAnnotation.getValueOrThrow("byte_");
                                              }
-                                             public Ap.AnnotationValue.CharacterValue char_() {
-                                                return (Ap.AnnotationValue.CharacterValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "char_");
+                                          
+                                             public short short_() {
+                                                return (short) myAnnotation.getValueOrThrow("short_").getValue();
                                              }
-                                             public Ap.AnnotationValue.FloatValue float_() {
-                                                return (Ap.AnnotationValue.FloatValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "float_");
+                                          
+                                             public D.AnnotationValue.ShortValue short_Value() {
+                                                return (D.AnnotationValue.ShortValue) myAnnotation.getValueOrThrow("short_");
                                              }
-                                             public Ap.AnnotationValue.DoubleValue double_() {
-                                                return (Ap.AnnotationValue.DoubleValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "double_");
+                                          
+                                             public int int_() {
+                                                return (int) myAnnotation.getValueOrThrow("int_").getValue();
                                              }
-                                             public Ap.AnnotationValue.TypeValue type() {
-                                                return (Ap.AnnotationValue.TypeValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "type");
+                                          
+                                             public D.AnnotationValue.IntegerValue int_Value() {
+                                                return (D.AnnotationValue.IntegerValue) myAnnotation.getValueOrThrow("int_");
                                              }
-                                             public Ap.AnnotationValue.EnumValue enum_() {
-                                                return (Ap.AnnotationValue.EnumValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "enum_");
+                                          
+                                             public long long_() {
+                                                return (long) myAnnotation.getValueOrThrow("long_").getValue();
                                              }
-                                             public Ap.AnnotationValue.AnnotationUsageValue annotation() {
-                                                return (Ap.AnnotationValue.AnnotationUsageValue) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "annotation");
+                                          
+                                             public D.AnnotationValue.LongValue long_Value() {
+                                                return (D.AnnotationValue.LongValue) myAnnotation.getValueOrThrow("long_");
                                              }
-                                             public Ap.AnnotationValue.Values<Ap.AnnotationValue.IntegerValue> values() {
-                                                return (Ap.AnnotationValue.Values) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUE, "values");
+                                          
+                                             public char char_() {
+                                                return (char) myAnnotation.getValueOrThrow("char_").getValue();
                                              }
+                                          
+                                             public D.AnnotationValue.CharacterValue char_Value() {
+                                                return (D.AnnotationValue.CharacterValue) myAnnotation.getValueOrThrow("char_");
+                                             }
+                                          
+                                             public float float_() {
+                                                return (float) myAnnotation.getValueOrThrow("float_").getValue();
+                                             }
+                                          
+                                             public D.AnnotationValue.FloatValue float_Value() {
+                                                return (D.AnnotationValue.FloatValue) myAnnotation.getValueOrThrow("float_");
+                                             }
+                                          
+                                             public double double_() {
+                                                return (double) myAnnotation.getValueOrThrow("double_").getValue();
+                                             }
+                                          
+                                             public D.AnnotationValue.DoubleValue double_Value() {
+                                                return (D.AnnotationValue.DoubleValue) myAnnotation.getValueOrThrow("double_");
+                                             }
+                                          
+                                             public D.AnnotationValue.TypeValue type() {
+                                                return (D.AnnotationValue.TypeValue) myAnnotation.getValueOrThrow("type").getValue();
+                                             }
+                                          
+                                             public D.AnnotationValue.TypeValue typeValue() {
+                                                return (D.AnnotationValue.TypeValue) myAnnotation.getValueOrThrow("type");
+                                             }
+                                          
+                                             public RetentionPolicy enum_() {
+                                                return (RetentionPolicy) myAnnotation.getValueOrThrow("enum_").getValue();
+                                             }
+                                          
+                                             public D.AnnotationValue.EnumValue enum_Value() {
+                                                return (D.AnnotationValue.EnumValue) myAnnotation.getValueOrThrow("enum_");
+                                             }
+                                          
+                                             public MyOtherAnnotation annotation() {
+                                                return (MyOtherAnnotation) myAnnotation.getValueOrThrow("annotation").getValue();
+                                             }
+                                          
+                                             public D.AnnotationValue.AnnotationUsageValue annotationValue() {
+                                                return (D.AnnotationValue.AnnotationUsageValue) myAnnotation.getValueOrThrow("annotation");
+                                             }
+                                          
+                                             public List<int> values() {
+                                                return ((D.AnnotationValue.Values<?>) myAnnotation.getValueOrThrow("values")).getValue().stream().map(D.NestedAnnotationValue.IntegerValue.class::cast).map(D.NestedAnnotationValue.IntegerValue::getValue).toList();
+                                             }
+                                          
+                                             public D.AnnotationValue.Values<D.AnnotationValue.IntegerValue> valuesValue() {
+                                                return (D.AnnotationValue.Values) myAnnotation.getValueOrThrow("values");
+                                             }
+                                          
+                                             private static Class<?> resolveEnumName(D.EnumConstant enumConstant) {
+                                                try {
+                                                   return Class.forName(enumConstant.getSurrounding().getBinaryName());
+                                                }
+                                                catch (ClassNotFoundException e) {
+                                                   throw new RuntimeException(e);
+                                                }
+                                             }
+                                          
                                              @Override
-                                             public Map<Ap.Method, Ap.AnnotationValue> getValues() {
-                                                return (Map<Ap.Method, Ap.AnnotationValue>) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_VALUES);
+                                             public Map<D.Method, D.AnnotationValue> getValues() {
+                                                return myAnnotation.getValues();
                                              }
+                                          
                                              @Override
-                                             public Ap.Annotation getAnnotation() {
-                                                return (Ap.Annotation) requestOrThrow(myAnnotation, ANNOTATION_USAGE_GET_ANNOTATION);
+                                             public D.Annotation getAnnotation() {
+                                                return myAnnotation.getAnnotation();
                                              }
+                                          
                                              @Override
-                                             public Implementation getImplementation() {
-                                                return myAnnotation.getImplementation();
+                                             public Origin getOrigin() {
+                                                return myAnnotation.getOrigin();
+                                             }
+                                          
+                                             @Override
+                                             public String renderDeclaration(RenderingContext renderingContext) {
+                                                return myAnnotation.renderDeclaration(renderingContext);
                                              }
                                           
                                           }""";

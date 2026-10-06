@@ -87,6 +87,7 @@ class AnnotationDslTest
                    
                    @interface MyInterface {
                       String s;
+                      
                       private int i;
                    }""",
                    ANNOTATION.name("MyInterface")
@@ -103,6 +104,7 @@ class AnnotationDslTest
                    
                    @interface MyInterface {
                       String foo();
+                      
                       String myMethod();
                    
                    }""",
@@ -120,6 +122,7 @@ class AnnotationDslTest
                    
                    @interface MyInterface {
                       @interface Inner {}
+                      
                       @interface Inner2 {
                       }
                    

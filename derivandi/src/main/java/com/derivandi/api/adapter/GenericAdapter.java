@@ -1,7 +1,7 @@
 package com.derivandi.api.adapter;
 
 import com.derivandi.api.D;
-import com.derivandi.internal.shadow.type.GenericImpl;
+import com.derivandi.internal.type.GenericImpl;
 
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.type.TypeVariable;

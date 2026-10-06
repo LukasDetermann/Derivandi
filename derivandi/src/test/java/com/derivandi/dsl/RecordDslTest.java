@@ -114,6 +114,7 @@ class RecordDslTest
                    
                    record MyRecord() {
                       String s;
+                      
                       private int i;
                    }""",
                    RECORD.name("MyRecord")
@@ -130,6 +131,7 @@ class RecordDslTest
                    
                    record MyRecord() {
                       abstract void foo() {}
+                      
                       String myMethod() {}
                    
                    }""",
@@ -147,6 +149,7 @@ class RecordDslTest
                    
                    record MyRecord() {
                       record Inner() {}
+                      
                       record Inner2() {
                       }
                    
@@ -185,6 +188,7 @@ class RecordDslTest
                    
                    record MyRecord() {
                       MyRecord() {}
+                      
                       MyRecord2() {}
                    
                    }""",

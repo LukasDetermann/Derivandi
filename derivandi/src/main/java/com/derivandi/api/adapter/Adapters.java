@@ -5,17 +5,20 @@ import com.derivandi.api.Origin;
 import com.derivandi.api.processor.SimpleContext;
 import com.derivandi.internal.annotationvalue.AnnotationUsageImpl;
 import com.derivandi.internal.annotationvalue.AnnotationValueImpl;
-import com.derivandi.internal.shadow.directive.*;
-import com.derivandi.internal.shadow.structure.*;
-import com.derivandi.internal.shadow.type.*;
+import com.derivandi.internal.directive.*;
+import com.derivandi.internal.structure.*;
+import com.derivandi.internal.type.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.lang.model.AnnotatedConstruct;
 import javax.lang.model.element.*;
 import javax.lang.model.type.*;
+import javax.lang.model.util.AbstractAnnotationValueVisitor14;
 import javax.lang.model.util.Elements;
 import java.util.List;
 
-import static java.util.Collections.singletonList;
+import static java.util.Optional.ofNullable;
 
 
 /**
@@ -23,11 +26,16 @@ import static java.util.Collections.singletonList;
  */
 public interface Adapters
 {
-   //shadow -> jdk
+   //derivandi -> jdk
 
    static AnnotationUsageAdapter adapt(D.AnnotationUsage annotationUsage)
    {
       return new AnnotationUsageAdapter(annotationUsage);
+   }
+
+   static AnnotationValueAdapter adapt(D.AnnotationValue annotationValue)
+   {
+      return new AnnotationValueAdapter(annotationValue);
    }
 
    static DeclaredAdapter adapt(D.Declared declared)
@@ -125,7 +133,7 @@ public interface Adapters
       return new UsesAdapter(uses);
    }
 
-   //jdk -> shadow
+   //jdk -> derivandi
 
    static D.Executable adapt(SimpleContext context, ExecutableElement element)
    {
@@ -310,14 +318,19 @@ public interface Adapters
       return new PackageImpl(context, packageElement);
    }
 
-   static D.AnnotationUsage adapt(SimpleContext context, AnnotatedConstruct annotated, AnnotationMirror annotationMirror)
+   static D.AnnotationUsage adapt(SimpleContext context, @Nullable AnnotatedConstruct annotated, AnnotationMirror annotationMirror)
    {
-      return adapt(context, annotated, singletonList(annotationMirror)).get(0);
+      return new AnnotationUsageImpl(context, annotated, annotationMirror);
    }
 
-   static List<D.AnnotationUsage> adapt(SimpleContext context, AnnotatedConstruct annotated, List<? extends AnnotationMirror> annotationMirrors)
+   static List<D.AnnotationUsage> adapt(SimpleContext context,
+                                        @Nullable AnnotatedConstruct annotated,
+                                        List<? extends AnnotationMirror> annotationMirrors)
    {
-      return AnnotationUsageImpl.from(context, annotated, annotationMirrors);
+      return annotationMirrors.stream()
+                              .map(annotationMirror -> new AnnotationUsageImpl(context, annotated, annotationMirror))
+                              .map(D.AnnotationUsage.class::cast)
+                              .toList();
    }
 
    static D.Directive adapt(SimpleContext context, ModuleElement declaringModule, ModuleElement.Directive directive)
@@ -357,9 +370,195 @@ public interface Adapters
       return new UsesImpl(context, declaringModule, usesDirective);
    }
 
-   static AnnotationValue adapt(AnnotationValue annotationValue)
+   ///
+   /// @param value usualy from [javax.lang.model.element.AnnotationMirror#getElementValues]
+   /// @param valueOrDefault usualy from [javax.lang.model.util.Elements#getElementValuesWithDefaults]
+   static D.AnnotationValue adapt(SimpleContext context,
+                                  @Nullable AnnotationValue value,
+                                  @NotNull AnnotationValue valueOrDefault)
    {
-      return ((AnnotationValueImpl) annotationValue).getAnnotationValue();
+      return valueOrDefault.accept(new AbstractAnnotationValueVisitor14<D.AnnotationValue, Void>()
+      {
+         @Override
+         public D.AnnotationValue visitBoolean(boolean b, Void unused)
+         {
+            return new AnnotationValueImpl.BooleanValueImpl(context,
+                                                            value,
+                                                            ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                             .map(Boolean.class::cast)
+                                                                             .orElse(null),
+                                                            valueOrDefault,
+                                                            b);
+         }
+
+         @Override
+         public D.AnnotationValue visitByte(byte b, Void unused)
+         {
+            return new AnnotationValueImpl.ByteValueImpl(context,
+                                                         value,
+                                                         ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                          .map(Byte.class::cast)
+                                                                          .orElse(null),
+                                                         valueOrDefault,
+                                                         b);
+         }
+
+         @Override
+         public D.AnnotationValue visitChar(char c, Void unused)
+         {
+            return new AnnotationValueImpl.CharacterValueImpl(context,
+                                                              value,
+                                                              ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                               .map(Character.class::cast)
+                                                                               .orElse(null),
+                                                              valueOrDefault,
+                                                              c);
+         }
+
+         @Override
+         public D.AnnotationValue visitDouble(double d, Void unused)
+         {
+            return new AnnotationValueImpl.DoubleValueImpl(context,
+                                                           value,
+                                                           ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                            .map(Double.class::cast)
+                                                                            .orElse(null),
+                                                           valueOrDefault,
+                                                           d);
+         }
+
+         @Override
+         public D.AnnotationValue visitFloat(float f, Void unused)
+         {
+            return new AnnotationValueImpl.FloatValueImpl(context,
+                                                          value,
+                                                          ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                           .map(Float.class::cast)
+                                                                           .orElse(null),
+                                                          valueOrDefault,
+                                                          f);
+         }
+
+         @Override
+         public D.AnnotationValue visitInt(int i, Void unused)
+         {
+            return new AnnotationValueImpl.IntegerValueImpl(context,
+                                                            value,
+                                                            ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                             .map(Integer.class::cast)
+                                                                             .orElse(null),
+                                                            valueOrDefault,
+                                                            i);
+         }
+
+         @Override
+         public D.AnnotationValue visitLong(long i, Void unused)
+         {
+            return new AnnotationValueImpl.LongValueImpl(context,
+                                                         value,
+                                                         ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                          .map(Long.class::cast)
+                                                                          .orElse(null),
+                                                         valueOrDefault,
+                                                         i);
+         }
+
+         @Override
+         public D.AnnotationValue visitShort(short s, Void unused)
+         {
+            return new AnnotationValueImpl.ShortValueImpl(context,
+                                                          value,
+                                                          ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                           .map(Short.class::cast)
+                                                                           .orElse(null),
+                                                          valueOrDefault,
+                                                          s);
+         }
+
+         @Override
+         public D.AnnotationValue visitString(String s, Void unused)
+         {
+            return new AnnotationValueImpl.StringValueImpl(context,
+                                                           value,
+                                                           ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                            .map(String.class::cast)
+                                                                            .orElse(null),
+                                                           valueOrDefault,
+                                                           s);
+         }
+
+         @Override
+         public D.AnnotationValue visitType(TypeMirror t, Void unused)
+         {
+            return new AnnotationValueImpl.TypeValueImpl(context,
+                                                         value,
+                                                         ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                          .map(TypeMirror.class::cast)
+                                                                          .map(typeMirror -> adapt(context, typeMirror))
+                                                                          .orElse(null),
+                                                         valueOrDefault,
+                                                         adapt(context, t));
+         }
+
+         @Override
+         public D.AnnotationValue visitEnumConstant(VariableElement c, Void unused)
+         {
+            return new AnnotationValueImpl.EnumValueImpl(context,
+                                                         value,
+                                                         ofNullable(value).map(AnnotationValue::getValue)
+                                                                          .map(VariableElement.class::cast)
+                                                                          .map(variableElement -> adapt(context, variableElement))
+                                                                          .map(D.EnumConstant.class::cast)
+                                                                          .orElse(null),
+                                                         valueOrDefault,
+                                                         ((D.EnumConstant) adapt(context, c)));
+         }
+
+         @Override
+         public D.AnnotationValue visitAnnotation(AnnotationMirror a, Void unused)
+         {
+            return new AnnotationValueImpl.AnnotationUsageValueImpl(context,
+                                                                    value,
+                                                                    ofNullable(value).map(javax.lang.model.element.AnnotationValue::getValue)
+                                                                                     .map(AnnotationMirror.class::cast)
+                                                                                     .map(annotationMirror -> adapt(context,
+                                                                                                                    null,
+                                                                                                                    annotationMirror))
+                                                                                     .orElse(null),
+                                                                    valueOrDefault,
+                                                                    adapt(context, null, a));
+         }
+
+         @Override
+         public D.AnnotationValue visitArray(List<? extends AnnotationValue> vals, Void unused)
+         {
+            return new AnnotationValueImpl.ValuesImpl<>(context,
+                                                        value,
+                                                        ofNullable(value).map(AnnotationValue::getValue)
+                                                                         .map(obj ->
+                                                                              {
+                                                                                 //noinspection unchecked
+                                                                                 return ((List<AnnotationValue>) obj);
+                                                                              })
+                                                                         .map(annotationValues ->
+                                                                                    annotationValues.stream()
+                                                                                                    .map(annotationValue ->
+                                                                                                               adapt(context,
+                                                                                                                     null,
+                                                                                                                     annotationValue))
+                                                                                                    .map(D.NestedAnnotationValue.class::cast)
+                                                                                                    .toList())
+                                                                         .orElse(null),
+                                                        valueOrDefault,
+                                                        vals.stream()
+                                                            .map(annotationValue ->
+                                                                       adapt(context,
+                                                                             null,
+                                                                             annotationValue))
+                                                            .map(D.NestedAnnotationValue.class::cast)
+                                                            .toList());
+         }
+      }, null);
    }
 
    static Origin adapt(Elements.Origin origin)

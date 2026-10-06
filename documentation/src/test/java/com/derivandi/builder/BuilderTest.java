@@ -18,7 +18,7 @@ class BuilderTest
                                              "builder");
 
    @Test
-   void shadow()
+   void derivandi()
    {
       assertDoesNotThrow(() -> processorTest().withCodeToCompile(DIR.resolve("BuilderPattern.java"))
                                               .withCodeToCompile(DIR.resolve("Customer.java"))

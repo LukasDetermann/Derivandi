@@ -380,75 +380,77 @@ public class InterfaceDsl
    }
 
    @Override
-   public String renderDeclaration(RenderingContext context)
+   public String renderDeclaration(RenderingContext context1)
    {
-      context.addSurrounding(this);
-      if (package_ != null)
+      return context1.withSurrounding(this, context ->
       {
-         renderPackageName(package_, context).ifPresent(context::setCurrentPackageName);
-      }
+         if (package_ != null)
+         {
+            renderPackageName(package_, context).ifPresent(context::setCurrentPackageName);
+         }
 
-      StringBuilder sb = new StringBuilder();
-      if (javadoc != null)
-      {
-         sb.append(javadoc.render(context))
-           .append("\n");
-      }
+         StringBuilder sb = new StringBuilder();
+         if (javadoc != null)
+         {
+            sb.append(javadoc.render(context))
+              .append("\n");
+         }
 
-      renderElement(sb, annotations, context, "\n", new Padding(null, context.getLineIndentation(), null, "\n"));
-      sb.append(context.getLineIndentation());
-      renderElement(sb, modifiers, context, " ", new Padding(null, null, null, " "));
+         renderElement(sb, annotations, context, "\n", new Padding(null, context.getLineIndentation(), null, "\n"));
+         sb.append(context.getLineIndentation());
+         renderElement(sb, modifiers, context, " ", new Padding(null, null, null, " "));
 
-      sb.append("interface ");
-      sb.append(name);
-      sb.append(' ');
+         sb.append("interface ");
+         sb.append(name);
+         sb.append(' ');
 
-      renderElement(sb, "<", genericDeclarations, "> ", context, ", ");
+         renderElement(sb, "<", genericDeclarations, "> ", context, ", ");
 
-      renderElement(sb, "extends ", extends_, " ", context, ", ");
-      renderElement(sb, "permits ", permits, " ", context, ", ");
+         renderElement(sb, "extends ", extends_, " ", context, ", ");
+         renderElement(sb, "permits ", permits, " ", context, ", ");
 
-      sb.append("{\n");
-      RenderingContext indented = createRenderingContext(context);
-      indented.incrementIndentationLevel();
-      if (body != null)
-      {
-         sb.append(body.render(indented))
-           .append('\n');
-      }
-      else
-      {
-         renderElement(sb, fields, indented, "\n", new Padding(null, null, null, "\n"));
-         renderElement(sb, methods, indented, "\n", new Padding(null, null, null, "\n\n"));
-         renderElement(sb, inner, indented, "\n", new Padding(null, null, null, "\n\n"));
-      }
+         sb.append("{\n");
+         RenderingContext indented = createRenderingContext(context);
+         indented.incrementIndentationLevel();
+         if (body != null)
+         {
+            sb.append(body.render(indented))
+              .append('\n');
+         }
+         else
+         {
+            renderElement(sb, fields, indented, "\n\n", new Padding(null, null, null, "\n"));
+            renderElement(sb, methods, indented, "\n\n", new Padding(null, null, null, "\n\n"));
+            renderElement(sb, inner, indented, "\n\n", new Padding(null, null, null, "\n\n"));
+         }
 
-      sb.append(context.getLineIndentation())
-        .append('}');
+         sb.append(context.getLineIndentation())
+           .append('}');
 
-      //render Header
+         //render Header
 
-      if (!imports.isEmpty() || !context.getImports().isEmpty())
-      {
-         sb.insert(0, "\n\n");
-      }
-      sb.insert(0, concat(imports.stream().map(renderable -> renderable.render(context)),
-                          context.getImports().stream().map(renderable -> renderable.renderDeclaration(context))).collect(joining("\n")));
+         if (!imports.isEmpty() || !context.getImports().isEmpty())
+         {
+            sb.insert(0, "\n\n");
+         }
+         sb.insert(0, concat(imports.stream().map(renderable -> renderable.render(context)),
+                             context.getImports().stream().map(renderable -> renderable.renderDeclaration(context))).collect(joining("\n")));
 
-      if (package_ != null)
-      {
-         renderPackageDeclaration(package_, context)
-               .ifPresent(s -> sb.insert(0, "\n\n")
-                                 .insert(0, s));
-      }
+         if (package_ != null)
+         {
+            renderPackageDeclaration(package_, context)
+                  .ifPresent(s -> sb.insert(0, "\n\n")
+                                    .insert(0, s));
+         }
 
-      if (copyright != null)
-      {
-         sb.insert(0, '\n')
-           .insert(0, copyright);
-      }
+         if (copyright != null)
+         {
+            sb.insert(0, '\n')
+              .insert(0, copyright);
+         }
 
-      return sb.toString();
+         return sb.toString();
+      });
    }
 
    @Override
@@ -458,36 +460,38 @@ public class InterfaceDsl
    }
 
    @Override
-   public String renderQualifiedName(RenderingContext context)
+   public String renderQualifiedName(RenderingContext context1)
    {
-      context.addSurrounding(this);
-
-      StringBuilder sb = new StringBuilder();
-      if (package_ != null)
+      return context1.withSurrounding(this, context ->
       {
-         renderPackageName(package_, context).ifPresent(s -> sb.append(s).append('.'));
-      }
-      if (outerType != null)
-      {
-         sb.append(outerType.render(context))
-           .append('.');
-      }
-      sb.append(name);
+         StringBuilder sb = new StringBuilder();
+         if (package_ != null)
+         {
+            renderPackageName(package_, context).ifPresent(s -> sb.append(s).append('.'));
+         }
+         if (outerType != null)
+         {
+            sb.append(outerType.render(context))
+              .append('.');
+         }
+         sb.append(name);
 
-      return sb.toString();
+         return sb.toString();
+      });
    }
 
    @Override
    public String renderType(RenderingContext context)
    {
-      context.addSurrounding(this);
-
-      String qualifiedName = renderName(context);
-      if (genericUsages.isEmpty())
+      return context.withSurrounding(this, context1 ->
       {
-         return qualifiedName;
-      }
-      return qualifiedName + '<' + genericUsages.stream().map(renderable -> renderable.render(context)).collect(joining(", ")) + '>';
+         String qualifiedName = renderName(context);
+         if (genericUsages.isEmpty())
+         {
+            return qualifiedName;
+         }
+         return qualifiedName + '<' + genericUsages.stream().map(renderable -> renderable.render(context)).collect(joining(", ")) + '>';
+      });
    }
 
    @Override

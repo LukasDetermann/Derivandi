@@ -1,0 +1,220 @@
+== Overview
+
+Every Programm talks about something.
+A Webshop will talk about Products, Customers, Orders and Payment.
+Programms can also talk about other Programms in the same way (Metaprogramming).
+The Livecycle from writing code to it being executed is long and there are many different opportunities for metaprogramming.
+Each having different tradeoffs depending on the context.
+
+The code written with this Library runs in the java compiler.
+It takes in source files and outputs class files.
+Derivandi can do two things:
+
+. <<_code_generation>>
+. <<_validation>>
+
+
+== Annotations
+
+Writing `CustomerEntitiy` or `@Entity Customer` represents the same information.
+The structured way of expressing metadata as Annotations is just easier to process by tools.
+Annotations don't do anything on their own.
+
+The most relevant properties of Annotations for compile time meta programming are:
+
+. `@Retention` configures how long an Annotations should be kept in the livecycle.
+.. `SOURCE` Annotations are discarded at the end of the compilation
+.. `CLASS` Annotations are written in the class files, but not read by the java runtime
+.. `RUNTIME` Annotations are always present
+. `@Target` configures where an Annotation can be used
+. `@Inherited` configures inheritance for an Annotation
+
+== Derivandi
+
+Derivandi core features are
+
+=== Code Model
+
+It is possible to query the code model from modules down to method parameters.
+
+[%linenums,java]
+----
+D.Class string = context.getClassOrThrow("java.lang.String");
+for (D.Property property : string.getProperties()) {
+   D.Method getter = property.getGetter();
+   for (D.Parameter parameter : getter.getParameters()) {
+      System.out.println(parameter.isFinal());
+   }
+}
+----
+
+=== JavaDsl
+
+The JavaDsl makes it easy to generate source files.
+The Code Model can be used with the JavaDsl.
+Modules down to method parameters are typesafe.
+Everything has a flexible String overload.
+
+[%linenums,java]
+----
+JavaDsl.class_().package_("org.example")
+             .public_().name("MyClass")
+             .field(JavaDsl.field().private_().type("String").name("foo"))
+             .method(JavaDsl.method().public_().resultType("void").name("bar"))
+             .renderDeclaration(RenderingContext.createRenderingContext());
+----
+
+=== File Generation
+
+There are tree kind of files that can be generated.
+Class files, resource files and source files.
+Generated source files will be complied like any other.
+Generating them should be preferred over class files.
+The JavaDsl can be used.
+
+
+[%linenums,java]
+----
+context.writeClassFile();
+context.writeResource();
+context.writeAndCompileSourceFile(JavaDsl.class_().package_("org.example")
+                                         .public_().name("MyClass")
+                                         .constructor(JavaDsl.constructor().surroundingType()));
+----
+
+=== Logging
+
+Logging can be done on three levels. Error, Warning or Info.
+Errors will interrupt the compilation.
+It is possible to log with a reference to a specific place in the code.
+
+[%linenums,java]
+----
+context.logAndRaiseError("broken");
+
+D.Class string = context.getClassOrThrow("java.lang.String");
+context.logWarningAt(string, "let me warn you about Strings!");
+
+context.logInfo("i was here");
+----
+
+== Compiler
+
+=== Overview
+
+Derivandi runs in the complier.
+Compilation happens in five steps.
+
+. *Parse* +
+The source files are parsed
+. *Enter* +
+The Parser Result is entered in the internal datastructures
+. *Annotation Processing* +
+All Annotation processors, like Derivandi, are executed.
+This may parts in new source files.
+If new source files are generated the steps 1-3 will be run for again for just these.
+. *Analyse* +
+Analyses and Validates the code.
++
+TIP: This means that "normal" code can reference code that will only be generated at compile time.
+. *Generate* +
+Class files are generated
+
+
+=== Compilation Units
+
+Derivandi code is normal java code, that gets executed at compile time.
+Therefore, it needs to be already compiled.
+Making multiple compilation Units necessary.
+Meaning multiple maven modules or equivalent in other build tools.
+
+
+== Examples
+
+=== Validation
+
+Derivandi can be used to validate source code and enforce constraints.
+
+If you want static methods in many classes to adhere to the same signature there is no mechanism in the java language.
+But we can build one using Derivandi.
+
+Let's say we want a static method to have this signature.
+[%linenums,java]
+----
+ifndef::site-gen-antora[]
+include::../../../src/test/java/com/derivandi/article/intro/validation/MyInterface.java[tag=content]
+endif::[]
+ifdef::site-gen-antora[]
+include::Derivandi::example$article/intro/validation/MyInterface.java[tag=content]
+----
+
+To mark wich method should have wich signature we would need an annotation that takes the interface to staticly implement as a parameter.
+[%linenums,java]
+----
+ifndef::site-gen-antora[]
+include::../../../src/test/java/com/derivandi/article/intro/validation/StaticInterface.java[tag=content]
+endif::[]
+ifdef::site-gen-antora[]
+include::Derivandi::example$article/intro/validation/StaticInterface.java[tag=content]
+----
+
+With the usage looking like this
+[%linenums,java]
+----
+ifndef::site-gen-antora[]
+include::../../../src/test/java/com/derivandi/article/intro/validation/MyC1ass.java[tag=content]
+endif::[]
+ifdef::site-gen-antora[]
+include::Derivandi::example$article/intro/validation/MyC1ass.java[tag=content]
+----
+
+Then you can write a Derivandi Processor that validates, that every type annotated with `@StaticInterface` has a static method with the correct signature.
+
+[%linenums,java]
+----
+ifndef::site-gen-antora[]
+include::../../../src/test/java/com/derivandi/article/intro/validation/ValidationProcessor.java[tag=content]
+endif::[]
+ifdef::site-gen-antora[]
+include::Derivandi::example$article/intro/validation/ValidationProcessor.java[tag=content]
+----
+
+
+=== Code Generation
+
+Derivandi can be used to generated new classes.
+Often this is used to generate implementations of interfaces or abstract classes.
+
+In this Example we want to create a proxy, that counts how often `Map#put` gets called.
+To do that we create an abstract class, containing only the logic we need.
+We than mark that class with `@Proxy` and the delegate with `@Delegate`.
+A Derivandi Processor can now be written to generate an implementation of `MapProxy` that delegates all not implemented methods to the Delegate.
+
+[%linenums,java]
+----
+@Proxy
+public abstract class MapProxy<K,V> implements Map<K, V> {
+
+   private int counter = 0;
+
+   @De1egate
+   protected final Map<K, V> delegate = new HashMap<>();
+
+   @Override
+   public V put(K key, V value) {
+
+      counter++;
+
+      return delegate.put(key,value);
+   }
+}
+----
+
+[%linenums,java]
+----
+ifndef::site-gen-antora[]
+include::../../../src/test/java/com/derivandi/article/intro/generation/GenerationProcessor.java[tag=content]
+endif::[]
+ifdef::site-gen-antora[]
+include::Derivandi::example$article/intro/generation/GenerationProcessor.java[tag=content]
+----

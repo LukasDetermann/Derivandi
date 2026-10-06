@@ -171,10 +171,9 @@ public class FieldDsl
    }
 
    @Override
-   public String renderDeclaration(RenderingContext context)
+   public String renderDeclaration(RenderingContext context1)
    {
-      context.addSurrounding(this);
-      return partialRender(context) + ';';
+      return context1.withSurrounding(this, context -> partialRender(context) + ';');
    }
 
    private String partialRender(RenderingContext context)
@@ -247,28 +246,29 @@ public class FieldDsl
       @Override
       public String renderDeclaration(RenderingContext context)
       {
-         context.addSurrounding(this);
-
-         StringBuilder sb = new StringBuilder();
-
-         sb.append(fieldDsl.partialRender(context));
-
-         for (int i = 0; i < initializers.size(); i++)
+         return context.withSurrounding(this, context1 ->
          {
-            sb.append(", ")
-              .append(names.get(i))
-              .append(" = ")
-              .append(initializers.get(i));
-         }
+            StringBuilder sb = new StringBuilder();
 
-         if (names.size() == initializers.size() + 1)
-         {
-            sb.append(", ")
-              .append(names.getLast());
-         }
-         sb.append(';');
+            sb.append(fieldDsl.partialRender(context));
 
-         return sb.toString();
+            for (int i = 0; i < initializers.size(); i++)
+            {
+               sb.append(", ")
+                 .append(names.get(i))
+                 .append(" = ")
+                 .append(initializers.get(i));
+            }
+
+            if (names.size() == initializers.size() + 1)
+            {
+               sb.append(", ")
+                 .append(names.getLast());
+            }
+            sb.append(';');
+
+            return sb.toString();
+         });
       }
 
       @Override

@@ -60,30 +60,32 @@ public class PackageDsl
    }
 
    @Override
-   public String renderPackageInfo(RenderingContext context)
+   public String renderPackageInfo(RenderingContext context1)
    {
       if (name == null || name.isEmpty())
       {
          throw new IllegalStateException("cant render a package-info for an unnamed package");
       }
 
-      context.addSurrounding(this);
-      context.setCurrentPackageName(name);
-
-      StringBuilder sb = new StringBuilder();
-      if (javadoc != null)
+      return context1.withSurrounding(this, context ->
       {
-         sb.append(javadoc.render(context));
-         sb.append("\n");
-      }
+         context.setCurrentPackageName(name);
 
-      renderElement(sb, annotations, "\n", context, "\n");
+         StringBuilder sb = new StringBuilder();
+         if (javadoc != null)
+         {
+            sb.append(javadoc.render(context));
+            sb.append("\n");
+         }
 
-      sb.append("package ");
-      sb.append(name);
-      sb.append(';');
+         renderElement(sb, annotations, "\n", context, "\n");
 
-      return sb.toString();
+         sb.append("package ");
+         sb.append(name);
+         sb.append(';');
+
+         return sb.toString();
+      });
    }
 
    @Override

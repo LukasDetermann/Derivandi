@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Deque;
 import java.util.List;
+import java.util.function.Function;
 
 import static com.derivandi.api.dsl.RenderingConfiguration.DEFAULT_CONFIGURATION;
 
@@ -38,7 +39,7 @@ public interface RenderingContext
    /// Returns the objects surrounding the one being currently rendered
    Deque<Object> getSurrounding();
 
-   void addSurrounding(Object surrounding);
+   <T> T withSurrounding(Object surrounding, Function<RenderingContext, T> withSurrounding);
 
    /// [#getLineIndentation()] = " ".repeat([#getIndentationLevel()] * [RenderingConfiguration#getIndentation()])
    ///

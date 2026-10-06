@@ -1,7 +1,7 @@
 package com.derivandi.api.adapter;
 
 import com.derivandi.api.D;
-import com.derivandi.internal.shadow.type.PrimitiveImpl;
+import com.derivandi.internal.type.PrimitiveImpl;
 
 import javax.lang.model.type.PrimitiveType;
 

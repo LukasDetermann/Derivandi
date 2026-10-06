@@ -16,7 +16,7 @@ import static com.derivandi.api.dsl.RenderingContext.createRenderingContext;
 
 /**
  * This is the core class for a lightweight wrapper around the java annotationProcessor api. The {@link SimpleContext} is transient. Meaning you can
- * transition between using the shadow and the java annotation processor api from line to line if you so wish.
+ * transition between using the derivandi and the java annotation processor api from line to line if you so wish.
  * <br><br>
  *
  * <h2>Usage:</h2>

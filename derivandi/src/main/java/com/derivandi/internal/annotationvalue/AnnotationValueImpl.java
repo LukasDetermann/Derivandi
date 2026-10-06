@@ -1,337 +1,249 @@
 package com.derivandi.internal.annotationvalue;
 
 import com.derivandi.api.D;
-import com.derivandi.api.adapter.Adapters;
 import com.derivandi.api.dsl.RenderingContext;
 import com.derivandi.api.dsl.annotation_value.AnnotationValueRenderable;
 import com.derivandi.api.processor.SimpleContext;
+import org.jetbrains.annotations.Nullable;
 
-import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.VariableElement;
-import javax.lang.model.type.TypeMirror;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.derivandi.api.dsl.JavaDsl.annotationValue;
 
-public abstract class AnnotationValueImpl
+public abstract class AnnotationValueImpl<R>
 {
    protected final SimpleContext context;
-   private final boolean defaultValue;
    private final AnnotationValue annotationValue;
+   private final @Nullable R value;
+   private final AnnotationValue defaultAnnotationValue;
+   private final R valueOrDefault;
 
-   static D.AnnotationValue create(SimpleContext context,
-                                   AnnotationValue annotationValue,
-                                   boolean defaultValue)
+   public static class StringValueImpl
+         extends AnnotationValueImpl<String>
+         implements D.AnnotationValue.StringValue
    {
-      Object value = annotationValue.getValue();
-
-      if (value instanceof String)
+      public StringValueImpl(SimpleContext context,
+                             AnnotationValue annotationValue,
+                             @Nullable String value,
+                             AnnotationValue defaultAnnotationValue,
+                             String valueOrDefault)
       {
-         return new StringValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof Boolean)
-      {
-         return new BooleanValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof Byte)
-      {
-         return new ByteValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof Short)
-      {
-         return new ShortValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof Integer)
-      {
-         return new IntegerValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof Long)
-      {
-         return new LongValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof Character)
-      {
-         return new CharacterValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof Float)
-      {
-         return new FloatValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof Double)
-      {
-         return new DoubleValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof TypeMirror)
-      {
-         return new TypeValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof Element)
-      {
-         return new EnumValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof AnnotationMirror)
-      {
-         return new AnnotationUsageValueImpl(context, annotationValue, defaultValue);
-      }
-      if (value instanceof Collection)
-      {
-         return new ValuesImpl(context, annotationValue, defaultValue);
-      }
-      throw new IllegalStateException();
-   }
-
-   private static class StringValueImpl extends AnnotationValueImpl implements D.AnnotationValue.StringValue
-   {
-      private final AnnotationValue annotationValue;
-
-      StringValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
-      {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public String getValue()
-      {
-         return ((String) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class BooleanValueImpl extends AnnotationValueImpl implements D.AnnotationValue.BooleanValue
+   public static class BooleanValueImpl
+         extends AnnotationValueImpl<Boolean>
+         implements D.AnnotationValue.BooleanValue
    {
-      private final AnnotationValue annotationValue;
-
-      BooleanValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public BooleanValueImpl(SimpleContext context,
+                              AnnotationValue annotationValue,
+                              @Nullable Boolean value,
+                              AnnotationValue defaultAnnotationValue,
+                              Boolean valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public Boolean getValue()
-      {
-         return ((Boolean) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class ByteValueImpl extends AnnotationValueImpl implements D.AnnotationValue.ByteValue
+   public static class ByteValueImpl
+         extends AnnotationValueImpl<Byte>
+         implements D.AnnotationValue.ByteValue
    {
-      private final AnnotationValue annotationValue;
-
-      ByteValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public ByteValueImpl(SimpleContext context,
+                           AnnotationValue annotationValue,
+                           @Nullable Byte value,
+                           AnnotationValue defaultAnnotationValue,
+                           Byte valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public Byte getValue()
-      {
-         return ((Byte) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class ShortValueImpl extends AnnotationValueImpl implements D.AnnotationValue.ShortValue
+   public static class ShortValueImpl
+         extends AnnotationValueImpl<Short>
+         implements D.AnnotationValue.ShortValue
    {
-      private final AnnotationValue annotationValue;
-
-      ShortValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public ShortValueImpl(SimpleContext context,
+                            AnnotationValue annotationValue,
+                            @Nullable Short value,
+                            AnnotationValue defaultAnnotationValue,
+                            Short valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public Short getValue()
-      {
-         return ((Short) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class IntegerValueImpl extends AnnotationValueImpl implements D.AnnotationValue.IntegerValue
+   public static class IntegerValueImpl
+         extends AnnotationValueImpl<Integer>
+         implements D.AnnotationValue.IntegerValue
    {
-      private final AnnotationValue annotationValue;
-
-      IntegerValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public IntegerValueImpl(SimpleContext context,
+                              AnnotationValue annotationValue,
+                              @Nullable Integer value,
+                              AnnotationValue defaultAnnotationValue,
+                              Integer valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public Integer getValue()
-      {
-         return ((Integer) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class LongValueImpl extends AnnotationValueImpl implements D.AnnotationValue.LongValue
+   public static class LongValueImpl
+         extends AnnotationValueImpl<Long>
+         implements D.AnnotationValue.LongValue
    {
-      private final AnnotationValue annotationValue;
-
-      LongValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public LongValueImpl(SimpleContext context,
+                           AnnotationValue annotationValue,
+                           @Nullable Long value,
+                           AnnotationValue defaultAnnotationValue,
+                           Long valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public Long getValue()
-      {
-         return ((Long) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class CharacterValueImpl extends AnnotationValueImpl implements D.AnnotationValue.CharacterValue
+   public static class CharacterValueImpl
+         extends AnnotationValueImpl<Character>
+         implements D.AnnotationValue.CharacterValue
    {
-      private final AnnotationValue annotationValue;
-
-      CharacterValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public CharacterValueImpl(SimpleContext context,
+                                AnnotationValue annotationValue,
+                                @Nullable Character value,
+                                AnnotationValue defaultAnnotationValue,
+                                Character valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public Character getValue()
-      {
-         return ((Character) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class FloatValueImpl extends AnnotationValueImpl implements D.AnnotationValue.FloatValue
+   public static class FloatValueImpl
+         extends AnnotationValueImpl<Float>
+         implements D.AnnotationValue.FloatValue
    {
-      private final AnnotationValue annotationValue;
-
-      FloatValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public FloatValueImpl(SimpleContext context,
+                            AnnotationValue annotationValue,
+                            @Nullable Float value,
+                            AnnotationValue defaultAnnotationValue,
+                            Float valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public Float getValue()
-      {
-         return ((Float) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class DoubleValueImpl extends AnnotationValueImpl implements D.AnnotationValue.DoubleValue
+   public static class DoubleValueImpl
+         extends AnnotationValueImpl<Double>
+         implements D.AnnotationValue.DoubleValue
    {
-      private final AnnotationValue annotationValue;
-
-      DoubleValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public DoubleValueImpl(SimpleContext context,
+                             AnnotationValue annotationValue,
+                             @Nullable Double value,
+                             AnnotationValue defaultAnnotationValue,
+                             Double valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public Double getValue()
-      {
-         return ((Double) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class TypeValueImpl extends AnnotationValueImpl implements D.AnnotationValue.TypeValue
+   public static class TypeValueImpl
+         extends AnnotationValueImpl<D.Type>
+         implements D.AnnotationValue.TypeValue
    {
-      private final AnnotationValue annotationValue;
-
-      TypeValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public TypeValueImpl(SimpleContext context,
+                           AnnotationValue annotationValue,
+                           @Nullable D.Type value,
+                           AnnotationValue defaultAnnotationValue,
+                           D.Type valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public D.Type getValue()
-      {
-         return Adapters.adapt(context, (TypeMirror) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class EnumValueImpl
-         extends AnnotationValueImpl implements D.AnnotationValue.EnumValue
+   public static class EnumValueImpl
+         extends AnnotationValueImpl<D.EnumConstant>
+         implements D.AnnotationValue.EnumValue
    {
-      private final AnnotationValue annotationValue;
-
-      EnumValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public EnumValueImpl(SimpleContext context,
+                           AnnotationValue annotationValue,
+                           @Nullable D.EnumConstant value,
+                           AnnotationValue defaultAnnotationValue,
+                           D.EnumConstant valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public D.EnumConstant getValue()
-      {
-         return ((D.EnumConstant) Adapters.adapt(context, (VariableElement) annotationValue.getValue()));
+         super(context,
+               annotationValue,
+               value,
+               defaultAnnotationValue,
+               valueOrDefault);
       }
    }
 
-   private static class AnnotationUsageValueImpl extends AnnotationValueImpl implements D.AnnotationValue.AnnotationUsageValue
+   public static class AnnotationUsageValueImpl
+         extends AnnotationValueImpl<D.AnnotationUsage>
+         implements D.AnnotationValue.AnnotationUsageValue
    {
-      private final AnnotationValue annotationValue;
-
-      AnnotationUsageValueImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public AnnotationUsageValueImpl(SimpleContext context,
+                                      AnnotationValue annotationValue,
+                                      @Nullable D.AnnotationUsage value,
+                                      AnnotationValue defaultAnnotationValue,
+                                      D.AnnotationUsage valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public D.AnnotationUsage getValue()
-      {
-         return AnnotationUsageImpl.from(context, (AnnotationMirror) annotationValue.getValue());
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private static class ValuesImpl<T extends D.AnnotationValue> extends AnnotationValueImpl implements D.AnnotationValue.Values<T>
+   public static class ValuesImpl<T extends D.NestedAnnotationValue>
+         extends AnnotationValueImpl<List<T>>
+         implements D.AnnotationValue.Values<T>
    {
-      private final AnnotationValue annotationValue;
-
-      ValuesImpl(SimpleContext context, AnnotationValue annotationValue, boolean defaultValue)
+      public ValuesImpl(SimpleContext context,
+                        AnnotationValue annotationValue,
+                        @Nullable List<T> value,
+                        AnnotationValue defaultAnnotationValue,
+                        List<T> valueOrDefault)
       {
-         super(context, defaultValue, annotationValue);
-         this.annotationValue = annotationValue;
-      }
-
-      @Override
-      public List<T> getValue()
-      {
-         //noinspection unchecked
-         return ((Collection<AnnotationValue>) annotationValue.getValue())
-               .stream()
-               .map(annotationValue1 -> create(context,
-                                               annotationValue1,
-                                               isDefault()))
-               .map(annotationValue1 -> ((T) annotationValue1))
-               .toList();
+         super(context, annotationValue, value, defaultAnnotationValue, valueOrDefault);
       }
    }
 
-   private AnnotationValueImpl(SimpleContext context, boolean defaultValue, AnnotationValue annotationValue)
+   private AnnotationValueImpl(SimpleContext context,
+                               AnnotationValue annotationValue,
+                               @Nullable R value,
+                               AnnotationValue defaultAnnotationValue,
+                               R valueOrDefault)
    {
       this.context = context;
-      this.defaultValue = defaultValue;
       this.annotationValue = annotationValue;
+      this.value = value;
+      this.defaultAnnotationValue = defaultAnnotationValue;
+      this.valueOrDefault = valueOrDefault;
    }
 
    public boolean isDefault()
    {
-      return defaultValue;
+      return value == null;
    }
 
-   public AnnotationValue getAnnotationValue()
+   public Optional<AnnotationValue> getAnnotationValue()
    {
-      return annotationValue;
+      return Optional.ofNullable(annotationValue);
    }
 
-   public abstract Object getValue();
+   public AnnotationValue getDefaultAnnotationValue()
+   {
+      return defaultAnnotationValue;
+   }
 
+   public R getValue()
+   {
+      return value == null ? valueOrDefault : value;
+   }
+
+   public R getDefaultValue()
+   {
+      return valueOrDefault;
+   }
 
    public String render(RenderingContext renderingContext)
    {
@@ -364,7 +276,6 @@ public abstract class AnnotationValueImpl
       return other instanceof D.AnnotationValue annotationValue1 &&
              Objects.equals(isDefault(), annotationValue1.isDefault()) &&
              Objects.equals(getValue(), annotationValue1.getValue());
-
    }
 
    @Override
@@ -379,6 +290,7 @@ public abstract class AnnotationValueImpl
       return "AnnotationValue{" +
              "default=" + isDefault() +
              ", value=" + getValue() +
+             ", defaultValue=" + getDefaultValue() +
              '}';
    }
 }

@@ -157,36 +157,37 @@ public class ModuleDsl
    }
 
    @Override
-   public String renderModuleInfo(RenderingContext context)
+   public String renderModuleInfo(RenderingContext context1)
    {
-      context.addSurrounding(this);
-
-      StringBuilder sb = new StringBuilder();
-      if (copyright != null)
+      return context1.withSurrounding(this, context ->
       {
-         sb.append(copyright)
-           .append("\n\n");
-      }
-      if (javadoc != null)
-      {
-         sb.append(javadoc.render(context))
-           .append("\n");
-      }
+         StringBuilder sb = new StringBuilder();
+         if (copyright != null)
+         {
+            sb.append(copyright)
+              .append("\n\n");
+         }
+         if (javadoc != null)
+         {
+            sb.append(javadoc.render(context))
+              .append("\n");
+         }
 
-      renderElement(sb, annotations, "\n", context, "\n");
+         renderElement(sb, annotations, "\n", context, "\n");
 
-      sb.append("module ")
-        .append(name)
-        .append(" {\n");
+         sb.append("module ")
+           .append(name)
+           .append(" {\n");
 
-      renderElement(sb, "\n", requires, "\n", context, "\n");
-      renderElement(sb, "\n", exports, "\n", context, "\n");
-      renderElement(sb, "\n", opens, "\n", context, "\n");
-      renderElement(sb, "\n", uses, "\n", context, "\n");
-      renderElement(sb, "\n", provides, "\n", context, "\n");
+         renderElement(sb, "\n", requires, "\n", context, "\n");
+         renderElement(sb, "\n", exports, "\n", context, "\n");
+         renderElement(sb, "\n", opens, "\n", context, "\n");
+         renderElement(sb, "\n", uses, "\n", context, "\n");
+         renderElement(sb, "\n", provides, "\n", context, "\n");
 
-      return sb.append('}')
-               .toString();
+         return sb.append('}')
+                  .toString();
+      });
    }
 
    @Override

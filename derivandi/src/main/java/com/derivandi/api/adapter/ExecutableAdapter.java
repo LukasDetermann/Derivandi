@@ -1,7 +1,7 @@
 package com.derivandi.api.adapter;
 
 import com.derivandi.api.D;
-import com.derivandi.internal.shadow.structure.ExecutableImpl;
+import com.derivandi.internal.structure.ExecutableImpl;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.ExecutableType;

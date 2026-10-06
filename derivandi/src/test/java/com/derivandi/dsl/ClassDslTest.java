@@ -152,6 +152,7 @@ class ClassDslTest
                    package org.example;
                    
                    class MyClass {
+                   
                       String s;
                       private int i;
                    }""",
@@ -169,6 +170,7 @@ class ClassDslTest
                    
                    class MyClass {
                       abstract void foo() {}
+                      
                       String myMethod() {}
                    
                    }""",
@@ -186,6 +188,7 @@ class ClassDslTest
                    
                    class MyClass {
                       class Inner {}
+                      
                       class Inner2 {
                       }
                    
@@ -244,6 +247,7 @@ class ClassDslTest
                    
                    class MyClass {
                       MyClass() {}
+                      
                       MyClass2() {}
                    
                    }""",

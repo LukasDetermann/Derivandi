@@ -52,9 +52,9 @@ public class ReceiverDsl
    public String renderDeclaration(RenderingContext renderingContext)
    {
       Deque<Object> surrounding = renderingContext.getSurrounding();
-      Object first = surrounding.pollFirst();
-      Object second = surrounding.pollFirst();
-      Object third = surrounding.pollFirst();
+      Object first = surrounding.pollLast();
+      Object second = surrounding.pollLast();
+      Object third = surrounding.pollLast();
 
       boolean isMethodReceiver = first instanceof MethodRenderable && second instanceof DeclaredRenderable;
       boolean isConstructorReceiver = first instanceof ConstructorRenderable &&

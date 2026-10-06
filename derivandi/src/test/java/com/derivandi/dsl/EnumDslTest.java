@@ -99,6 +99,7 @@ class EnumDslTest
                    
                    enum MyEnum {
                       String s;
+                      
                       private int i;
                    }""",
                    ENUM.name("MyEnum")
@@ -115,6 +116,7 @@ class EnumDslTest
                    
                    enum MyEnum {
                       abstract void foo() {}
+                      
                       String myMethod() {}
                    
                    }""",
@@ -132,6 +134,7 @@ class EnumDslTest
                    
                    enum MyEnum {
                       enum Inner {}
+                      
                       enum Inner2 {
                       }
                    
@@ -190,6 +193,7 @@ class EnumDslTest
                    
                    enum MyEnum {
                       MyEnum() {}
+                      
                       MyEnum2() {}
                    
                    }""",
@@ -296,6 +300,7 @@ class EnumDslTest
                    
                    enum MyEnum {
                       T1,
+                      
                       T2;
                    }""",
                    ENUM.name("MyEnum")

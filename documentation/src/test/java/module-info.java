@@ -13,4 +13,6 @@ module documentation {
    opens com.derivandi.article.consistency_test to org.junit.platform.commons;
    opens com.derivandi.article.meta_model to org.junit.platform.commons;
    opens com.derivandi.builder to org.junit.platform.commons;
+   opens com.derivandi.article.intro.validation to org.junit.platform.commons;
+   opens com.derivandi.article.intro.generation to org.junit.platform.commons;
 }

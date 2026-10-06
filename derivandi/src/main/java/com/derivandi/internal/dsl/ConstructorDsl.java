@@ -6,7 +6,6 @@ import com.derivandi.api.dsl.RenderingContext;
 import com.derivandi.api.dsl.annotation_usage.AnnotationUsageRenderable;
 import com.derivandi.api.dsl.class_.ClassRenderable;
 import com.derivandi.api.dsl.constructor.*;
-import com.derivandi.api.dsl.declared.DeclaredRenderable;
 import com.derivandi.api.dsl.enum_.EnumRenderable;
 import com.derivandi.api.dsl.generic.GenericRenderable;
 import com.derivandi.api.dsl.parameter.ParameterRenderable;
@@ -226,57 +225,57 @@ public class ConstructorDsl
                      (Renderable) renderingContext -> renderingContext
                            .getSurrounding()
                            .stream()
-                           .filter(DeclaredRenderable.class::isInstance)
-                           .map(DeclaredRenderable.class::cast)
-                           .map(declaredRenderable -> declaredRenderable.renderSimpleName(renderingContext))
+                           .filter(ClassRenderable.class::isInstance)
+                           .map(ClassRenderable.class::cast)
+                           .map(classRenderable -> classRenderable.renderSimpleName(renderingContext))
                            .findFirst()
                            .orElseThrow(() -> new IllegalStateException("Result needs to be contained in a DeclaredRenderable")),
                      (resultDsl, renderable) -> resultDsl.result = renderable);
    }
 
    @Override
-   public String renderDeclaration(RenderingContext context)
+   public String renderDeclaration(RenderingContext context1)
    {
-      context.addSurrounding(this);
-
-      StringBuilder sb = new StringBuilder();
-      if (javadoc != null)
+      return context1.withSurrounding(this, context ->
       {
-         sb.append(javadoc.render(context));
-         sb.append("\n");
-      }
-
-      renderElement(sb, annotations, context, "\n", new Padding(null, context.getLineIndentation(), null, "\n"));
-      sb.append(context.getLineIndentation());
-      renderElement(sb, modifiers, context, " ", new Padding(null, null, null, " "));
-      renderElement(sb, generics, context, ", ", new Padding("<", null, null, "> "));
-
-      sb.append(result.render(context));
-      sb.append('(');
-      if (receiver != null)
-      {
-         sb.append(receiver.render(context));
-         if (!parameters.isEmpty())
+         StringBuilder sb = new StringBuilder();
+         if (javadoc != null)
          {
-            sb.append(", ");
+            sb.append(javadoc.render(context));
+            sb.append("\n");
          }
-      }
-      renderElement(sb, parameters, context, ", ");
-      sb.append(')');
 
-      renderElement(sb, " throws ", exceptions, context, ", ");
+         renderElement(sb, annotations, context, "\n", new Padding(null, context.getLineIndentation(), null, "\n"));
+         sb.append(context.getLineIndentation());
+         renderElement(sb, modifiers, context, " ", new Padding(null, null, null, " "));
+         renderElement(sb, generics, context, ", ", new Padding("<", null, null, "> "));
 
-      sb.append(" {");
-      RenderingContext indented = createRenderingContext(context);
-      indented.incrementIndentationLevel();
-      if (body != null)
-      {
-         sb.append('\n')
-           .append(body.render(indented))
-           .append('\n')
-           .append(context.getLineIndentation());
-      }
-      return sb.append("}")
-               .toString();
+         sb.append(result.render(context));
+         sb.append('(');
+         if (receiver != null)
+         {
+            sb.append(receiver.render(context));
+            if (!parameters.isEmpty())
+            {
+               sb.append(", ");
+            }
+         }
+         renderElement(sb, parameters, context, ", ");
+         sb.append(')');
+
+         renderElement(sb, " throws ", exceptions, context, ", ");
+
+         sb.append(" {");
+         RenderingContext indented = createRenderingContext(context);
+         indented.incrementIndentationLevel();
+         if (body != null)
+         {
+            sb.append('\n')
+              .append(body.render(indented))
+              .append('\n')
+              .append(context.getLineIndentation());
+         }
+         return sb.append("}").toString();
+      });
    }
 }

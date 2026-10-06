@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
@@ -50,9 +51,12 @@ public class RenderingContextImpl
    }
 
    @Override
-   public void addSurrounding(Object surrounding)
+   public <T> T withSurrounding(Object surrounding, Function<RenderingContext, T> withSurrounding)
    {
-      this.surrounding.push(surrounding);
+      this.surrounding.add(surrounding);
+      T result = withSurrounding.apply(this);
+      this.surrounding.removeLast();
+      return result;
    }
 
    @Override

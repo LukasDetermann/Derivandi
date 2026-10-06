@@ -1,7 +1,7 @@
 package com.derivandi.api.adapter;
 
 import com.derivandi.api.D;
-import com.derivandi.internal.shadow.type.WildcardImpl;
+import com.derivandi.internal.type.WildcardImpl;
 
 import javax.lang.model.type.WildcardType;
 

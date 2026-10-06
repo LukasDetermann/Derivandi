@@ -285,56 +285,57 @@ public class MethodDsl
    @Override
    public String renderDeclaration(RenderingContext renderingContext)
    {
-      RenderingContext context = createRenderingContext(renderingContext);
-      context.addSurrounding(this);
-
-      StringBuilder sb = new StringBuilder();
-      if (javadoc != null)
+      RenderingContext context1 = createRenderingContext(renderingContext);
+      return context1.withSurrounding(this, context ->
       {
-         sb.append(javadoc.render(context));
-         sb.append("\n");
-      }
-
-      renderElement(sb, annotations, context, "\n", new Padding(null, context.getLineIndentation(), null, "\n"));
-      sb.append(context.getLineIndentation());
-      renderElement(sb, modifiers, " ", context, " ");
-      renderElement(sb, "<", generics, "> ", context, ", ");
-
-      sb.append(result.render(context))
-        .append(' ')
-        .append(name)
-        .append('(');
-
-      if (receiver != null)
-      {
-         sb.append(receiver.render(context));
-         if (!parameters.isEmpty())
+         StringBuilder sb = new StringBuilder();
+         if (javadoc != null)
          {
-            sb.append(", ");
+            sb.append(javadoc.render(context));
+            sb.append("\n");
          }
-      }
 
-      renderElement(sb, parameters, context, ", ");
-      sb.append(')');
+         renderElement(sb, annotations, context, "\n", new Padding(null, context.getLineIndentation(), null, "\n"));
+         sb.append(context.getLineIndentation());
+         renderElement(sb, modifiers, " ", context, " ");
+         renderElement(sb, "<", generics, "> ", context, ", ");
 
-      renderElement(sb, " throws ", exceptions, context, ", ");
+         sb.append(result.render(context))
+           .append(' ')
+           .append(name)
+           .append('(');
 
-      if (!(renderingContext.getSurrounding().peekFirst() instanceof AnnotationRenderable))
-      {
-         sb.append(" {");
-         if (body != null)
+         if (receiver != null)
          {
-            RenderingContext indented = createRenderingContext(context);
-            indented.incrementIndentationLevel();
-
-            sb.append('\n')
-              .append(body.render(indented))
-              .append('\n')
-              .append(context.getLineIndentation());
+            sb.append(receiver.render(context));
+            if (!parameters.isEmpty())
+            {
+               sb.append(", ");
+            }
          }
-         sb.append("}");
-      }
-      return sb.toString();
+
+         renderElement(sb, parameters, context, ", ");
+         sb.append(')');
+
+         renderElement(sb, " throws ", exceptions, context, ", ");
+
+         if (!(renderingContext.getSurrounding().peekFirst() instanceof AnnotationRenderable))
+         {
+            sb.append(" {");
+            if (body != null)
+            {
+               RenderingContext indented = createRenderingContext(context);
+               indented.incrementIndentationLevel();
+
+               sb.append('\n')
+                 .append(body.render(indented))
+                 .append('\n')
+                 .append(context.getLineIndentation());
+            }
+            sb.append("}");
+         }
+         return sb.toString();
+      });
    }
 
    @Override

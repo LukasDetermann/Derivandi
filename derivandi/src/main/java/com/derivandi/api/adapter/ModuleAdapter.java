@@ -1,7 +1,7 @@
 package com.derivandi.api.adapter;
 
 import com.derivandi.api.D;
-import com.derivandi.internal.shadow.structure.ModuleImpl;
+import com.derivandi.internal.structure.ModuleImpl;
 
 import javax.lang.model.element.ModuleElement;
 import javax.lang.model.type.NoType;

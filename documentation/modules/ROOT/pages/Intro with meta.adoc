@@ -1,0 +1,6 @@
+== Overview
+
+This guide is for people proficient in Reflection. Other guides are xref:index.adoc[available].
+
+Annotation Processing is metaprogramming at compile time.
+This projects wraps the Java API to make it easier to use.

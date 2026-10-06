@@ -51,7 +51,29 @@ public interface D
                                      .toList();
       }
 
+      default List<AnnotationUsage> getUsagesOf(String annotation)
+      {
+         return getAnnotationUsages().stream()
+                                     .filter(usage -> usage.getAnnotation().getQualifiedName().equals(annotation))
+                                     .toList();
+      }
+
       default Optional<AnnotationUsage> getUsageOf(Annotation annotation)
+      {
+         List<AnnotationUsage> usages = getUsagesOf(annotation);
+
+         if (usages.isEmpty())
+         {
+            return Optional.empty();
+         }
+         if (usages.size() == 1)
+         {
+            return Optional.of(usages.get(0));
+         }
+         throw new IllegalArgumentException();
+      }
+
+      default Optional<AnnotationUsage> getUsageOf(String annotation)
       {
          List<AnnotationUsage> usages = getUsagesOf(annotation);
 
@@ -71,11 +93,23 @@ public interface D
          return getUsageOf(annotation).orElseThrow(IllegalArgumentException::new);
       }
 
+      default AnnotationUsage getUsageOfOrThrow(String annotation)
+      {
+         return getUsageOf(annotation).orElseThrow(IllegalArgumentException::new);
+      }
+
       default boolean isAnnotatedWith(Annotation annotation)
       {
          return getAnnotationUsages().stream()
                                      .map(AnnotationUsage::getAnnotation)
                                      .anyMatch(annotation1 -> annotation1.equals(annotation));
+      }
+
+      default boolean isAnnotatedWith(String annotation)
+      {
+         return getAnnotationUsages().stream()
+                                     .map(AnnotationUsage::getAnnotation)
+                                     .anyMatch(annotation1 -> annotation1.getQualifiedName().equals(annotation));
       }
 
       /// returns all direkt annotations
@@ -90,6 +124,13 @@ public interface D
                                            .toList();
       }
 
+      default List<AnnotationUsage> getDirectUsagesOf(String annotation)
+      {
+         return getDirectAnnotationUsages().stream()
+                                           .filter(usage -> usage.getAnnotation().getQualifiedName().equals(annotation))
+                                           .toList();
+      }
+
       default Optional<AnnotationUsage> getDirectUsageOf(Annotation annotation)
       {
          return getDirectAnnotationUsages().stream()
@@ -97,7 +138,19 @@ public interface D
                                            .findAny();
       }
 
+      default Optional<AnnotationUsage> getDirectUsageOf(String annotation)
+      {
+         return getDirectAnnotationUsages().stream()
+                                           .filter(usage -> usage.getAnnotation().getQualifiedName().equals(annotation))
+                                           .findAny();
+      }
+
       default AnnotationUsage getDirectUsageOfOrThrow(Annotation annotation)
+      {
+         return getDirectUsageOf(annotation).orElseThrow();
+      }
+
+      default AnnotationUsage getDirectUsageOfOrThrow(String annotation)
       {
          return getDirectUsageOf(annotation).orElseThrow();
       }
@@ -107,6 +160,13 @@ public interface D
          return getDirectAnnotationUsages().stream()
                                            .map(AnnotationUsage::getAnnotation)
                                            .anyMatch(annotation1 -> annotation1.equals(annotation));
+      }
+
+      default boolean isDirectlyAnnotatedWith(String annotation)
+      {
+         return getDirectAnnotationUsages().stream()
+                                           .map(AnnotationUsage::getAnnotation)
+                                           .anyMatch(annotation1 -> annotation1.getQualifiedName().equals(annotation));
       }
    }
 
@@ -137,103 +197,259 @@ public interface D
       Annotation getAnnotation();
    }
 
-   sealed interface AnnotationValue
+   /// Lets say an Annotation has a List<String> as its value.
+   /// That would be moddled as `D.AnnotationValue.Values<D.NestedAnnotationValue.StringValue>`
+   /// The List has may have a default Value. The Strings do not.
+   /// This Type represents the Strings.
+   sealed interface NestedAnnotationValue
          extends AnnotationValueRenderable
    {
-      /// is this the default value specified in the annotation?
-      boolean isDefault();
-
       Object getValue();
 
       non-sealed interface StringValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          String getValue();
+         String getDefaultValue();
       }
 
       non-sealed interface BooleanValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          Boolean getValue();
       }
 
       non-sealed interface ByteValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          Byte getValue();
       }
 
       non-sealed interface ShortValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          Short getValue();
       }
 
       non-sealed interface IntegerValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          Integer getValue();
       }
 
       non-sealed interface LongValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          Long getValue();
       }
 
       non-sealed interface CharacterValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          Character getValue();
       }
 
       non-sealed interface FloatValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          Float getValue();
       }
 
       non-sealed interface DoubleValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          Double getValue();
       }
 
       non-sealed interface TypeValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          Type getValue();
       }
 
       non-sealed interface EnumValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          EnumConstant getValue();
       }
 
       non-sealed interface AnnotationUsageValue
-            extends AnnotationValue
+            extends NestedAnnotationValue
       {
          @Override
          AnnotationUsage getValue();
       }
 
-      non-sealed interface Values<T extends AnnotationValue>
-            extends AnnotationValue
+      non-sealed interface Values<T extends NestedAnnotationValue>
+            extends NestedAnnotationValue
       {
          @Override
          List<T> getValue();
+      }
+   }
+
+   sealed interface AnnotationValue
+         extends AnnotationValueRenderable
+   {
+      Object getValue();
+
+      /// is this the default value specified in the annotation?
+      boolean isDefault();
+
+      Object getDefaultValue();
+
+      non-sealed interface StringValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.StringValue
+      {
+         @Override
+         String getValue();
+
+         @Override
+         String getDefaultValue();
+      }
+
+      non-sealed interface BooleanValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.BooleanValue
+      {
+         @Override
+         Boolean getValue();
+
+         @Override
+         Boolean getDefaultValue();
+      }
+
+      non-sealed interface ByteValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.ByteValue
+      {
+         @Override
+         Byte getValue();
+
+         @Override
+         Byte getDefaultValue();
+      }
+
+      non-sealed interface ShortValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.ShortValue
+      {
+         @Override
+         Short getValue();
+
+         @Override
+         Short getDefaultValue();
+      }
+
+      non-sealed interface IntegerValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.IntegerValue
+      {
+         @Override
+         Integer getValue();
+
+         @Override
+         Integer getDefaultValue();
+      }
+
+      non-sealed interface LongValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.LongValue
+      {
+         @Override
+         Long getValue();
+
+         @Override
+         Long getDefaultValue();
+      }
+
+      non-sealed interface CharacterValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.CharacterValue
+      {
+         @Override
+         Character getValue();
+
+         @Override
+         Character getDefaultValue();
+      }
+
+      non-sealed interface FloatValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.FloatValue
+      {
+         @Override
+         Float getValue();
+
+         @Override
+         Float getDefaultValue();
+      }
+
+      non-sealed interface DoubleValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.DoubleValue
+      {
+         @Override
+         Double getValue();
+
+         @Override
+         Double getDefaultValue();
+      }
+
+      non-sealed interface TypeValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.TypeValue
+      {
+         @Override
+         Type getValue();
+
+         @Override
+         Type getDefaultValue();
+      }
+
+      non-sealed interface EnumValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.EnumValue
+      {
+         @Override
+         EnumConstant getValue();
+
+         @Override
+         EnumConstant getDefaultValue();
+      }
+
+      non-sealed interface AnnotationUsageValue
+            extends AnnotationValue,
+                    NestedAnnotationValue.AnnotationUsageValue
+      {
+         @Override
+         AnnotationUsage getValue();
+
+         @Override
+         AnnotationUsage getDefaultValue();
+      }
+
+      non-sealed interface Values<T extends NestedAnnotationValue>
+            extends AnnotationValue,
+                    NestedAnnotationValue.Values<T>
+      {
+         @Override
+         List<T> getValue();
+
+         @Override
+         List<T> getDefaultValue();
       }
    }
 
@@ -245,7 +461,7 @@ public interface D
    interface Erasable
    {
       /// Information regarding generics is lost after the compilation. For Example {@code List<String>} becomes {@code List}. This method Does the same.
-      /// This can be useful if you want to check if a shadow implements for example {@link java.util.Collection}
+      /// This can be useful if you want to check if a derivandi implements for example {@link java.util.Collection}
       /// {@code typeToTest.erasure().isSubtypeOf(context.getDeclaredOrThrow("java.util.Collection").erasure())}
       /// <p>
       /// for {@link Class}s this means for example {@code class MyClass<T>{}} -&gt; {@code class MyClass{}}
@@ -311,7 +527,7 @@ public interface D
 
       /**
        * Information regarding generics is lost after the compilation. For Example {@code List<String>} becomes {@code List}. This method Does the same.
-       * This can be useful if you want to check if a shadow implements for example {@link java.util.Collection}
+       * This can be useful if you want to check if a derivandi implements for example {@link java.util.Collection}
        * {@code typeToTest.erasure().isSubtypeOf(context.getDeclaredOrThrow("java.util.Collection").erasure())}
        * <p>
        * for {@link Array}s this means for example {@code T[]} -&gt; {@code java.lang.Object[]}
@@ -388,7 +604,7 @@ public interface D
 
       /**
        * Information regarding generics is lost after the compilation. For Example {@code List<String>} becomes {@code List}. This method Does the same.
-       * This can be useful if you want to check if a shadow implements for example {@link java.util.Collection}
+       * This can be useful if you want to check if a derivandi implements for example {@link java.util.Collection}
        * {@code typeToTest.erasure().isSubtypeOf(context.getDeclaredOrThrow("java.util.Collection").erasure())}
        * <p>
        * for {@link Class}s this means for example {@code class MyClass<T>{}} -&gt; {@code class MyClass{}}
@@ -428,9 +644,15 @@ public interface D
        */
       NestingKind getNesting();
 
+
+      default Optional<Field> getField(String simpleName)
+      {
+         return getFields().stream().filter(field -> field.getName().equals(simpleName)).findAny();
+      }
+
       default Field getFieldOrThrow(String simpleName)
       {
-         return getFields().stream().filter(field -> field.getName().equals(simpleName)).findAny().orElseThrow();
+         return getField(simpleName).orElseThrow();
       }
 
       List<Field> getFields();
@@ -556,7 +778,7 @@ public interface D
 
       /**
        * Information regarding generics is lost after the compilation. For Example {@code List<String>} becomes {@code List}. This method Does the same.
-       * This can be useful if you want to check if a shadow implements for example {@link java.util.Collection}
+       * This can be useful if you want to check if a derivandi implements for example {@link java.util.Collection}
        * {@code typeToTest.erasure().isSubtypeOf(context.getDeclaredOrThrow("java.util.Collection").erasure())}
        * <p>
        * for {@link Generic}s this means for example {@code T extends Number} -&gt; {@code Number}
@@ -611,7 +833,7 @@ public interface D
 
       /**
        * Information regarding generics is lost after the compilation. For Example {@code List<String>} becomes {@code List}. This method Does the same.
-       * This can be useful if you want to check if a shadow implements for example {@link java.util.Collection}
+       * This can be useful if you want to check if a derivandi implements for example {@link java.util.Collection}
        * {@code typeToTest.erasure().isSubtypeOf(context.getDeclaredOrThrow("java.util.Collection").erasure())}
        * <p>
        * for {@link Interface}s this means for example {@code interface MyInterface<T>{}} -&gt; {@code interface MyInterface{}}
@@ -676,7 +898,7 @@ public interface D
 
       /**
        * Information regarding generics is lost after the compilation. For Example {@code List<String>} becomes {@code List}. This method Does the same.
-       * This can be useful if you want to check if a shadow implements for example {@link Collection}
+       * This can be useful if you want to check if a derivandi implements for example {@link Collection}
        * {@code typeToTest.erasure().isSubtypeOf(context.getDeclaredOrThrow("java.util.Collection").erasure())}
        * <p>
        * for {@link Interface}s this means for example {@code interface MyInterface<T>{}} -&gt; {@code interface MyInterface{}}
@@ -749,7 +971,7 @@ public interface D
 
       /**
        * Information regarding generics is lost after the compilation. For Example {@code List<String>} becomes {@code List}. This method Does the same.
-       * This can be useful if you want to check if a shadow implements for example {@link Collection}
+       * This can be useful if you want to check if a derivandi implements for example {@link Collection}
        * {@code typeToTest.erasure().isSubtypeOf(context.getDeclaredOrThrow("java.util.Collection").erasure())}
        * <p>
        * for {@link Wildcard}s this means for example {@code ? extends java.lang.Number} -&gt; {@code java.lang.Number}
@@ -862,9 +1084,14 @@ public interface D
        */
       List<Parameter> getParameters();
 
+      default Optional<Parameter> getParameter(String name)
+      {
+         return getParameters().stream().filter(parameter -> parameter.getName().equals(name)).findAny();
+      }
+
       default Parameter getParameterOrThrow(String name)
       {
-         return getParameters().stream().filter(parameter -> parameter.getName().equals(name)).findAny().orElseThrow();
+         return getParameter(name).orElseThrow();
       }
 
       List<Type> getParameterTypes();
@@ -926,10 +1153,14 @@ public interface D
    {
       boolean isConstant();
 
-      /**
-       * String or primitive value of static fields
-       */
-      Object getConstantValue();
+      /// String or primitive value of final fields no enums
+      Optional<Object> getConstantValue();
+
+      /// String or primitive value of final fields no enums
+      default Object getConstantValueOrThrow()
+      {
+         return getConstantValue().orElseThrow();
+      }
 
       @Override
       Declared getSurrounding();
@@ -946,7 +1177,7 @@ public interface D
                  NativeModifiable,
                  MethodRenderable
    {
-      Type getReturnType();
+      Type getResultType();
 
       boolean overrides(Method method);
 

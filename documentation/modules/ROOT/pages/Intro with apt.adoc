@@ -59,11 +59,11 @@ This API uses Optional and is null safe.
 
 == Typesafe Annotation Mirrors
 
-The generation of Typesafe Annotation Mirrors is possible using `io.determann.shadow.api.annotation_processing.generate.GenerateTypesafeUsage` or `io.determann.shadow.api.annotation_processing.generate.GenerateTypesafeUsageFor`
+The generation of Typesafe Annotation Mirrors is possible using `com.derivandi.api.generate.GenerateTypesafeUsage` or `com.derivandi.api.generate.GenerateTypesafeUsage`
 
 == Processor Builder
 
-The `io.determann.shadow.api.annotation_processing.processor.ProcessorBuilder` guides when writing an Annotation Processor with sensible defaults.
+The `com.derivandi.api.processor.ProcessorBuilder` guides when writing an Annotation Processor with sensible defaults.
 
 == System out and Exception Handling
 

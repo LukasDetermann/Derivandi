@@ -9,7 +9,6 @@ module com.derivandi.test {
    opens com.derivandi to  org.junit.platform.commons;
    opens com.derivandi.dsl to  org.junit.platform.commons;
    opens com.derivandi.javadoc to org.junit.platform.commons;
-   opens com.derivandi.shadow to  org.junit.platform.commons;
-   opens com.derivandi.shadow.type to  org.junit.platform.commons;
-   opens com.derivandi.shadow.structure to  org.junit.platform.commons;
+   opens com.derivandi.type to  org.junit.platform.commons;
+   opens com.derivandi.structure to  org.junit.platform.commons;
 }

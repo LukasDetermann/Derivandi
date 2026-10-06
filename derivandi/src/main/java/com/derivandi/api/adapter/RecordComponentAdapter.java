@@ -1,7 +1,7 @@
 package com.derivandi.api.adapter;
 
 import com.derivandi.api.D;
-import com.derivandi.internal.shadow.structure.RecordComponentImpl;
+import com.derivandi.internal.structure.RecordComponentImpl;
 
 import javax.lang.model.element.RecordComponentElement;
 

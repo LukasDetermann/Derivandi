@@ -2,66 +2,66 @@ package com.derivandi.internal.annotationvalue;
 
 import com.derivandi.api.D;
 import com.derivandi.api.Origin;
+import com.derivandi.api.adapter.Adapters;
 import com.derivandi.api.dsl.RenderingContext;
 import com.derivandi.api.dsl.annotation_usage.AnnotationUsageNameStep;
 import com.derivandi.api.processor.SimpleContext;
 
 import javax.lang.model.AnnotatedConstruct;
 import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.ExecutableElement;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.derivandi.api.adapter.Adapters.adapt;
 import static com.derivandi.api.dsl.JavaDsl.annotationUsage;
-import static com.derivandi.internal.annotationvalue.AnnotationValueImpl.create;
 
 public class AnnotationUsageImpl
       implements D.AnnotationUsage
 {
    private final SimpleContext context;
    private final AnnotationMirror annotationMirror;
-   private static AnnotatedConstruct annotated;
+   private final AnnotatedConstruct annotated;
 
-   public static List<D.AnnotationUsage> from(SimpleContext langModelContext,
-                                              AnnotatedConstruct annotated,
-                                              Collection<? extends AnnotationMirror> annotationMirrors)
-   {
-      AnnotationUsageImpl.annotated = annotated;
-      return annotationMirrors.stream().map(annotationMirror -> from(langModelContext, annotationMirror)).toList();
-   }
+   private Map<D.Method, D.AnnotationValue> values;
 
-   static D.AnnotationUsage from(SimpleContext langModelContext, AnnotationMirror annotationMirror)
+   public AnnotationUsageImpl(SimpleContext context, AnnotatedConstruct annotated, AnnotationMirror annotationMirror)
    {
-      return new AnnotationUsageImpl(langModelContext, annotationMirror);
-   }
-
-   private AnnotationUsageImpl(SimpleContext context, AnnotationMirror annotationMirror)
-   {
-      this.context = context;
-      this.annotationMirror = annotationMirror;
+      this.context = Objects.requireNonNull(context);
+      this.annotationMirror = Objects.requireNonNull(annotationMirror);
+      this.annotated = annotated;
    }
 
    @Override
    public Map<D.Method, D.AnnotationValue> getValues()
    {
-      Map<D.Method, D.AnnotationValue> result = new LinkedHashMap<>();
-
-      Map<? extends ExecutableElement, ? extends javax.lang.model.element.AnnotationValue> withoutDefaults = annotationMirror.getElementValues();
-
-      Map<? extends ExecutableElement, ? extends javax.lang.model.element.AnnotationValue> withDefaults =
-            adapt(getApi()).toElements().getElementValuesWithDefaults(annotationMirror);
-
-      for (Map.Entry<? extends ExecutableElement, ? extends javax.lang.model.element.AnnotationValue> entry : withDefaults.entrySet())
+      if (values == null)
       {
-         result.put((D.Method) adapt(getApi(), entry.getKey()),
-                    create(context, entry.getValue(), !withoutDefaults.containsKey(entry.getKey())));
+         values = new LinkedHashMap<>();
+
+         Map<? extends ExecutableElement, ? extends AnnotationValue> withoutDefaults = annotationMirror.getElementValues();
+
+         Map<? extends ExecutableElement, ? extends AnnotationValue> withDefaults =
+               adapt(getApi()).toElements().getElementValuesWithDefaults(annotationMirror);
+
+         for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : withDefaults.entrySet())
+         {
+            values.put((D.Method) Adapters.adapt(context, entry.getKey()),
+                       Adapters.adapt(context, withoutDefaults.get(entry.getKey()), withDefaults.get(entry.getKey())));
+         }
       }
-      return result;
+      return values;
    }
 
    @Override
    public Origin getOrigin()
    {
+      if (annotated == null)
+      {
+         throw new IllegalStateException();
+      }
       return adapt(adapt(getApi()).toElements().getOrigin(annotated, getAnnotationMirror()));
    }
 

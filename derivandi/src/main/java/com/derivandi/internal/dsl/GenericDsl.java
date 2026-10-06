@@ -9,6 +9,7 @@ import com.derivandi.api.dsl.generic.GenericAnnotateStep;
 import com.derivandi.api.dsl.generic.GenericExtendsStep;
 import com.derivandi.api.dsl.generic.GenericRenderable;
 import com.derivandi.api.dsl.interface_.InterfaceRenderable;
+import com.derivandi.api.dsl.parameter.ParameterRenderable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,12 +105,16 @@ public class GenericDsl
    }
 
    @Override
-   public String renderType(RenderingContext renderingContext)
+   public String renderType(RenderingContext context)
    {
+      if (!context.getSurrounding().isEmpty() && context.getSurrounding().getLast() instanceof ParameterRenderable)
+      {
+         return renderName(context);
+      }
       StringBuilder sb = new StringBuilder();
       sb.append(name);
 
-      renderElement(sb, " extends ", extends_, renderingContext, " & ");
+      renderElement(sb, " extends ", extends_, context, " & ");
       return sb.toString();
    }
 

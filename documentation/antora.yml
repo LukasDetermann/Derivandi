@@ -1,4 +1,4 @@
-name: Shadow-Api
+name: Derivandi
 version: ~
 prerelease: true
 asciidoc:
@@ -12,8 +12,8 @@ ext:
     run:
       command:
         mvn -B -f documentation/ clean test &&
-        XCOPY documentation\src\test\java\io\determann\shadow documentation\target\antora\io\determann\shadow\ /Y /S
+        XCOPY documentation\src\test\java\com\derivandi documentation\target\antora\com\derivandi\ /Y /S
     scan:
-      dir: ./target/antora/io/determann/shadow
+      dir: ./target/antora/com/derivandi
       files: '**/*'
       base: modules/ROOT/examples

@@ -91,32 +91,33 @@ public class EnumConstantDsl
    }
 
    @Override
-   public String renderDeclaration(RenderingContext context)
+   public String renderDeclaration(RenderingContext context1)
    {
-      context.addSurrounding(this);
-
-      StringBuilder sb = new StringBuilder();
-      if (javadoc != null)
+      return context1.withSurrounding(this, context ->
       {
-         sb.append(javadoc.render(context));
-         sb.append("\n");
-      }
+         StringBuilder sb = new StringBuilder();
+         if (javadoc != null)
+         {
+            sb.append(javadoc.render(context));
+            sb.append("\n");
+         }
 
-      renderElement(sb, annotations, context, "\n", new Padding(null, context.getLineIndentation(), null, "\n"));
+         renderElement(sb, annotations, context, "\n", new Padding(null, context.getLineIndentation(), null, "\n"));
 
-      sb.append(context.getLineIndentation())
-        .append(name);
-      renderElement(sb, "(", parameters, ")", context, ", ");
+         sb.append(context.getLineIndentation())
+           .append(name);
+         renderElement(sb, "(", parameters, ")", context, ", ");
 
-      if (body != null)
-      {
-         RenderingContext indented = createRenderingContext(context);
-         indented.incrementIndentationLevel();
+         if (body != null)
+         {
+            RenderingContext indented = createRenderingContext(context);
+            indented.incrementIndentationLevel();
 
-         sb.append(" {\n");
-         sb.append(body.render(indented));
-         sb.append("\n}");
-      }
-      return sb.toString();
+            sb.append(" {\n");
+            sb.append(body.render(indented));
+            sb.append("\n}");
+         }
+         return sb.toString();
+      });
    }
 }

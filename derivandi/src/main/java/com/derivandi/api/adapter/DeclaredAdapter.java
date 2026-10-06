@@ -1,7 +1,7 @@
 package com.derivandi.api.adapter;
 
 import com.derivandi.api.D;
-import com.derivandi.internal.shadow.type.DeclaredImpl;
+import com.derivandi.internal.type.DeclaredImpl;
 
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;

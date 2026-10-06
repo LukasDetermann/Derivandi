@@ -353,76 +353,78 @@ public class EnumDsl
    }
 
    @Override
-   public String renderDeclaration(RenderingContext context)
+   public String renderDeclaration(RenderingContext context1)
    {
-      context.addSurrounding(this);
-      if (package_ != null)
+      return context1.withSurrounding(this, context ->
       {
-         renderPackageName(package_, context).ifPresent(context::setCurrentPackageName);
-      }
+         if (package_ != null)
+         {
+            renderPackageName(package_, context).ifPresent(context::setCurrentPackageName);
+         }
 
-      StringBuilder sb = new StringBuilder();
-      if (javadoc != null)
-      {
-         sb.append(javadoc.render(context))
-           .append("\n");
-      }
+         StringBuilder sb = new StringBuilder();
+         if (javadoc != null)
+         {
+            sb.append(javadoc.render(context))
+              .append("\n");
+         }
 
-      renderElement(sb, annotations, context, "\n", new Padding(null, context.getLineIndentation(), null, "\n"));
-      sb.append(context.getLineIndentation());
-      renderElement(sb, modifiers, context, " ", new Padding(null, null, null, " "));
+         renderElement(sb, annotations, context, "\n", new Padding(null, context.getLineIndentation(), null, "\n"));
+         sb.append(context.getLineIndentation());
+         renderElement(sb, modifiers, context, " ", new Padding(null, null, null, " "));
 
-      sb.append("enum ")
-        .append(name)
-        .append(' ');
+         sb.append("enum ")
+           .append(name)
+           .append(' ');
 
-      renderElement(sb, implements_, context, ", ", new Padding("implements ", null, null, " "));
+         renderElement(sb, implements_, context, ", ", new Padding("implements ", null, null, " "));
 
-      RenderingContext indented = createRenderingContext(context);
-      indented.incrementIndentationLevel();
-      sb.append("{\n");
-      if (body != null)
-      {
-         sb.append(body.render(indented))
-           .append('\n');
-      }
-      else
-      {
-         renderElement(sb, enumConstants, indented, ",\n", new Padding(null, null, null, ";\n"));
-         renderElement(sb, fields, indented, "\n", new Padding(null, null, null, "\n"));
-         renderElement(sb, staticInitializers, indented, "\n", new Padding(null, null, null, "\n\n"));
-         renderElement(sb, constructors, indented, "\n", new Padding(null, null, null, "\n\n"));
-         renderElement(sb, instanceInitializers, indented, "\n", new Padding(null, null, null, "\n\n"));
-         renderElement(sb, methods, indented, "\n", new Padding(null, null, null, "\n\n"));
-         renderElement(sb, inner, indented, "\n", new Padding(null, null, null, "\n\n"));
-      }
+         RenderingContext indented = createRenderingContext(context);
+         indented.incrementIndentationLevel();
+         sb.append("{\n");
+         if (body != null)
+         {
+            sb.append(body.render(indented))
+              .append('\n');
+         }
+         else
+         {
+            renderElement(sb, enumConstants, indented, ",\n\n", new Padding(null, null, null, ";\n"));
+            renderElement(sb, fields, indented, "\n\n", new Padding(null, null, null, "\n"));
+            renderElement(sb, staticInitializers, indented, "\n\n", new Padding(null, null, null, "\n\n"));
+            renderElement(sb, constructors, indented, "\n\n", new Padding(null, null, null, "\n\n"));
+            renderElement(sb, instanceInitializers, indented, "\n\n", new Padding(null, null, null, "\n\n"));
+            renderElement(sb, methods, indented, "\n\n", new Padding(null, null, null, "\n\n"));
+            renderElement(sb, inner, indented, "\n\n", new Padding(null, null, null, "\n\n"));
+         }
 
-      //render Header
+         //render Header
 
-      if (!imports.isEmpty() || !context.getImports().isEmpty())
-      {
-         sb.insert(0, "\n\n");
-      }
-      sb.insert(0, concat(imports.stream().map(renderable -> renderable.render(context)),
-                          context.getImports().stream().map(renderable -> renderable.renderDeclaration(context))).collect(joining("\n")));
+         if (!imports.isEmpty() || !context.getImports().isEmpty())
+         {
+            sb.insert(0, "\n\n");
+         }
+         sb.insert(0, concat(imports.stream().map(renderable -> renderable.render(context)),
+                             context.getImports().stream().map(renderable -> renderable.renderDeclaration(context))).collect(joining("\n")));
 
-      if (package_ != null)
-      {
-         renderPackageDeclaration(package_, context)
-               .ifPresent(s -> sb.insert(0, "\n\n")
-                                 .insert(0, s));
-      }
+         if (package_ != null)
+         {
+            renderPackageDeclaration(package_, context)
+                  .ifPresent(s -> sb.insert(0, "\n\n")
+                                    .insert(0, s));
+         }
 
-      if (copyright != null)
-      {
-         sb.insert(0, '\n')
-           .insert(0, copyright);
-      }
+         if (copyright != null)
+         {
+            sb.insert(0, '\n')
+              .insert(0, copyright);
+         }
 
-      sb.append(context.getLineIndentation())
-        .append('}');
+         sb.append(context.getLineIndentation())
+           .append('}');
 
-      return sb.toString();
+         return sb.toString();
+      });
    }
 
    @Override
@@ -432,23 +434,24 @@ public class EnumDsl
    }
 
    @Override
-   public String renderQualifiedName(RenderingContext renderingContext)
+   public String renderQualifiedName(RenderingContext context1)
    {
-      renderingContext.addSurrounding(this);
-
-      StringBuilder sb = new StringBuilder();
-      if (package_ != null)
+      return context1.withSurrounding(this, context ->
       {
-         renderPackageName(package_, renderingContext).ifPresent(s -> sb.append(s).append('.'));
-      }
-      if (outerType != null)
-      {
-         sb.append(outerType.render(renderingContext))
-           .append('.');
-      }
-      sb.append(name);
+         StringBuilder sb = new StringBuilder();
+         if (package_ != null)
+         {
+            renderPackageName(package_, context).ifPresent(s -> sb.append(s).append('.'));
+         }
+         if (outerType != null)
+         {
+            sb.append(outerType.render(context))
+              .append('.');
+         }
+         sb.append(name);
 
-      return sb.toString();
+         return sb.toString();
+      });
    }
 
    @Override

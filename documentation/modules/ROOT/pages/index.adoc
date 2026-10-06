@@ -49,10 +49,10 @@ Some key features are
 [%linenums,java]
 ----
 ifndef::site-gen-antora[]
-include::../../../src/test/java/io/determann/shadow/builder/ShadowBuilderProcessor.java[]
+include::../../../src/test/java/com/derivandi/builder/DerivandiBuilderProcessor.java[]
 endif::[]
 ifdef::site-gen-antora[]
-include::example$builder/ShadowBuilderProcessor.java[]
+include::example$builder/DerivandiBuilderProcessor.java[]
 endif::[]
 ----
 ====

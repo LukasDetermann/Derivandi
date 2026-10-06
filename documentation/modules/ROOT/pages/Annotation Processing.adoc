@@ -35,9 +35,9 @@ One having the code to process and one containing the annotation processor.
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.determann</groupId>
+    <groupId>com.derivandi</groupId>
     <artifactId>processor-example</artifactId>
-    <version>0.3.1</version>
+    <version>1.0.0-SNAPSHOT</version>
 </project>
 ----
 .processed module
@@ -48,21 +48,21 @@ One having the code to process and one containing the annotation processor.
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.determann</groupId>
+    <groupId>com.derivandi</groupId>
     <artifactId>processed-example</artifactId>
-    <version>0.3.1</version>
+    <version>1.0.0-SNAPSHOT</version>
 </project>
 ----
 
 === 2) Dependencies
 
-.The processor needs to depend on the `shadow-api`
+.The processor needs to depend on the `derivandi`
 [%linenums,xml]
 ----
         <dependency>
-            <groupId>io.determann</groupId>
-            <artifactId>shadow</artifactId>
-            <version>0.3.1</version>
+            <groupId>com.derivandi</groupId>
+            <artifactId>derivandi</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 ----
 
@@ -70,9 +70,9 @@ One having the code to process and one containing the annotation processor.
 [%linenums,xml]
 ----
         <dependency>
-            <groupId>io.determann</groupId>
+            <groupId>com.derivandi</groupId>
             <artifactId>processor-example</artifactId>
-            <version>0.3.1</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 ----
 
@@ -90,9 +90,9 @@ One having the code to process and one containing the annotation processor.
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
-                            <groupId>io.determann</groupId>
+                            <groupId>com.derivandi</groupId>
                             <artifactId>processor-example</artifactId>
-                            <version>0.3.1</version>
+                            <version>1.0.0-SNAPSHOT</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -143,7 +143,7 @@ public class MyProcessor extends Ap.Processor
 .Create a file in `src/main/resources/META-INF/services/` called `javax.annotation.processing.Processor` and add your qualified path
 [%linenums,text]
 ----
-io.determann.shadow.example.processor.MyProcessor
+com.derivandi.example.processor.MyProcessor
 ----
 
 === 7) Annotation
@@ -184,10 +184,10 @@ public @interface BuilderPattern {}
 [%linenums,java]
 ----
 ifndef::site-gen-antora[]
-include::../../../src/test/java/io/determann/shadow/builder/ShadowBuilderProcessor.java[]
+include::../../../src/test/java/com/derivandi/builder/DerivandiBuilderProcessor.java[]
 endif::[]
 ifdef::site-gen-antora[]
-include::example$builder/ShadowBuilderProcessor.java[]
+include::example$builder/DerivandiBuilderProcessor.java[]
 endif::[]
 ----
 
@@ -195,7 +195,7 @@ endif::[]
 [%linenums,java]
 ----
 ifndef::site-gen-antora[]
-include::../../../src/test/java/io/determann/shadow/builder/Customer.java[]
+include::../../../src/test/java/com/derivandi/builder/Customer.java[]
 endif::[]
 ifdef::site-gen-antora[]
 include::example$builder/Customer.java[]
@@ -205,14 +205,13 @@ endif::[]
 .This builder would be generated
 [%linenums,java]
 ----
-package io.determann.shadow.builder;
+package com.derivandi.builder;
 
-import io.determann.shadow.builder.CustomerShadowBuilder;
 import builder.com.derivandi.Customer;
 
-class CustomerShadowBuilder {
+class CustomerDerivandiBuilder {
    private String name;
-   public CustomerShadowBuilder withName(String name) {
+   public CustomerDerivandiBuilder withName(String name) {
       this.name = name;
       return this;
    }

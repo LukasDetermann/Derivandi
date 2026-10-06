@@ -38,7 +38,7 @@ public class DerivandiBuilderProcessor
          String toBuildVariableName = uncapitalize(toBuild.getName());
          List<String> setterInvocations = new ArrayList<>();
 
-         // create a record holding the code needed to render a property in the builder
+         // loop over all needed properties
          for (D.Property property : toBuild.getProperties()
                                            .stream()
                                            .filter(D.Property::isMutable)

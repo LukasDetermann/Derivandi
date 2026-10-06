@@ -14,10 +14,10 @@ This Pseudocode demonstrates how.
 [%linenums,java]
 ----
 ifndef::site-gen-antora[]
-include::../../../src/test/java/io/determann/shadow/article/apt_loading/AptLoading.java[tag=javac]
+include::../../../src/test/java/com/derivandi/article/apt_loading/AptLoading.java[tag=javac]
 endif::[]
 ifdef::site-gen-antora[]
-include::Shadow-Api::example$article/apt_loading/AptLoading.java[tag=javac]
+include::Derivandi::example$article/apt_loading/AptLoading.java[tag=javac]
 endif::[]
 ----
 
@@ -31,7 +31,7 @@ This can be very useful to get familiar with the code model of annotation proces
 .`+javac -Xprint HelloWorld.java+`
 [%linenums,java]
 ----
-package io.determann.shadow.article.apt_loading;
+package com.derivandi.article.apt_loading;
 
 public class HelloWorld {
    public static void main(String[] args) {
@@ -42,10 +42,10 @@ public class HelloWorld {
 Annotation Processors can not access the content of methods.
 But default Constructors are present.
 +
-.result
+.parts
 [%linenums,java]
 ----
-package io.determann.shadow.article.apt_loading;
+package com.derivandi.article.apt_loading;
 
 public class HelloWorld {
 
