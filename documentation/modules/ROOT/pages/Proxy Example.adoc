@@ -1,0 +1,38 @@
+= Proxy
+
+Derivandi can be used to generated new classes.
+Often this is used to generate implementations of interfaces or abstract classes.
+
+In this Example we want to create a proxy, that counts how often `Map#put` gets called.
+To do that we create an abstract class, containing only the logic we need.
+We than mark that class with `@Proxy` and the delegate with `@Delegate`.
+A Derivandi Processor can now be written to generate an implementation of `MapProxy` that delegates all not implemented methods to the Delegate.
+
+[%linenums,java]
+----
+@Proxy
+public abstract class MapProxy<K,V> implements Map<K, V> {
+
+   private int counter = 0;
+
+   @De1egate
+   protected final Map<K, V> delegate = new HashMap<>();
+
+   @Override
+   public V put(K key, V value) {
+
+      counter++;
+
+      return delegate.put(key,value);
+   }
+}
+----
+
+[%linenums,java]
+----
+ifndef::site-gen-antora[]
+include::../../../src/test/java/com/derivandi/article/intro/generation/GenerationProcessor.java[tag=content]
+endif::[]
+ifdef::site-gen-antora[]
+include::Derivandi::example$article/intro/generation/GenerationProcessor.java[tag=content]
+----

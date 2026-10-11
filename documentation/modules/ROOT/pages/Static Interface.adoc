@@ -1,0 +1,47 @@
+= Static Interface
+
+Derivandi can be used to validate source code and enforce constraints.
+
+If you want static methods in many classes to adhere to the same signature there is no mechanism in the java language.
+But we can build one using Derivandi.
+
+Let's say we want a static method to have this signature.
+[%linenums,java]
+----
+ifndef::site-gen-antora[]
+include::../../../src/test/java/com/derivandi/article/intro/validation/MyInterface.java[tag=content]
+endif::[]
+ifdef::site-gen-antora[]
+include::Derivandi::example$article/intro/validation/MyInterface.java[tag=content]
+----
+
+To mark wich method should have wich signature we would need an annotation that takes the interface to staticly implement as a parameter.
+[%linenums,java]
+----
+ifndef::site-gen-antora[]
+include::../../../src/test/java/com/derivandi/article/intro/validation/StaticInterface.java[tag=content]
+endif::[]
+ifdef::site-gen-antora[]
+include::Derivandi::example$article/intro/validation/StaticInterface.java[tag=content]
+----
+
+With the usage looking like this
+[%linenums,java]
+----
+ifndef::site-gen-antora[]
+include::../../../src/test/java/com/derivandi/article/intro/validation/MyC1ass.java[tag=content]
+endif::[]
+ifdef::site-gen-antora[]
+include::Derivandi::example$article/intro/validation/MyC1ass.java[tag=content]
+----
+
+Then you can write a Derivandi Processor that validates, that every type annotated with `@StaticInterface` has a static method with the correct signature.
+
+[%linenums,java]
+----
+ifndef::site-gen-antora[]
+include::../../../src/test/java/com/derivandi/article/intro/validation/ValidationProcessor.java[tag=content]
+endif::[]
+ifdef::site-gen-antora[]
+include::Derivandi::example$article/intro/validation/ValidationProcessor.java[tag=content]
+----

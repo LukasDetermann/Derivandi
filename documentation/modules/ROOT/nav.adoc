@@ -3,5 +3,9 @@
 ** xref:Intro for new.adoc[new to metaprogramming]
 ** xref:Intro with meta.adoc[proficient in reflection]
 ** xref:Intro with apt.adoc[proficient in annotation processing]
+* Examples
+** xref:Builder Example.adoc[Builder]
+** xref:Static Interface.adoc[Static Interface]
+** xref:Proxy Example.adoc[Proxy]
 * Articles
 ** xref:AptLoading.adoc[]

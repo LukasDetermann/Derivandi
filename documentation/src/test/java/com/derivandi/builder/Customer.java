@@ -20,7 +20,9 @@ public class Customer
    @Override
    public boolean equals(Object o)
    {
-      return this == o || o instanceof Customer customer && Objects.equals(getName(), customer.getName());
+      return this == o ||
+             o instanceof Customer customer &&
+             Objects.equals(getName(), customer.getName());
    }
 
    @Override

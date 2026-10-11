@@ -3,13 +3,14 @@
 = Derivandi
 
 **Source code analysis and generation at compile time**
+based on Annotation Processing, also called Annotation Processing Tool (APT).
 
-Based on Annotation Processing, also called Annotation Processing Tool (APT).
+== Guides
 
 Depending on your background, there are different guides:
 
 - xref:Intro for new.adoc[new to metaprogramming]
-- xref:Intro with meta.adoc[proficient in reflection or another metaprogramming API]
+- xref:Intro with meta.adoc[proficient in reflection or another metaprogramming technic]
 - xref:Intro with apt.adoc[proficient in annotation processing]
 
 
@@ -17,7 +18,7 @@ Depending on your background, there are different guides:
 
 * The feedback cycle is as fast as possible. If generated sources are invalid the compiler will tell you
 * It’s harder to make mistakes, as the compiler validates everything
-* Meta Programming is always complex irespektve of the technology or api. Limiting it to compile time:
+* Meta Programming is always complex irrespective of the technology or api. Limiting it to compile time:
 ** Enforces separation of concerns with a hard boundary for architecture erosion
 ** Reasoning about an Annotation Processors impact on runtime is limited to the generated files and can therefore be drastically simpler
 * No lock-in - generated sources can be added to the source tree and the generator removed
@@ -29,7 +30,9 @@ Depending on your background, there are different guides:
 
 == Why this Library?
 
-This project is easier to use and avoids common pitfalls of the Java APT API, It provides adapters so you’re not locked in and can easily work with other APT tooling.
+* Most projects build tooling around APT anyways. When migrating to this Library LOC for the Processor can be reduced by 20-30%
+* This project is easier to use and avoids common pitfalls of APT
+* It provides adapters so you’re not locked in and can easily work with other APT tooling
 
 Some key features are
 
@@ -42,20 +45,10 @@ Some key features are
 - Generation of typesafe Annotation Representations
 
 == Examples
-.Builder Generator
-[%collapsible]
-====
 
-[%linenums,java]
-----
-ifndef::site-gen-antora[]
-include::../../../src/test/java/com/derivandi/builder/DerivandiBuilderProcessor.java[]
-endif::[]
-ifdef::site-gen-antora[]
-include::example$builder/DerivandiBuilderProcessor.java[]
-endif::[]
-----
-====
+* xref:Builder Example.adoc[Builder]
+* xref:Static Interface.adoc[Static Interface]
+* xref:Proxy Example.adoc[Proxy]
 
 == Next Goals
 

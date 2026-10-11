@@ -1,7 +1,6 @@
 package com.derivandi.builder;
 
 import com.derivandi.api.D;
-import com.derivandi.api.dsl.JavaDsl;
 import com.derivandi.api.dsl.class_.ClassBodyStep;
 import com.derivandi.api.processor.Processor;
 import com.derivandi.api.processor.ProcessorBuilder;
@@ -11,6 +10,7 @@ import com.derivandi.api.processor.SimpleContext;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.derivandi.api.dsl.JavaDsl.*;
 import static java.lang.String.join;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.uncapitalize;
@@ -19,6 +19,8 @@ import static org.apache.commons.lang3.StringUtils.uncapitalize;
 public class DerivandiBuilderProcessor
       extends Processor
 {
+   private static final String BUILDER_PATTERN = "com.derivandi.builder.BuilderPattern";
+
    @Override
    public ProcessorConfiguration buildProcessor(ProcessorBuilder processorBuilder)
    {
@@ -28,12 +30,11 @@ public class DerivandiBuilderProcessor
    private static void process(SimpleContext context)
    {
       // iterate over every class annotated with the BuilderPattern annotation
-      for (D.Class toBuild : context.getClassesAnnotatedWith("com.derivandi.builder.BuilderPattern"))
+      for (D.Class toBuild : context.getClassesAnnotatedWith(BUILDER_PATTERN))
       {
          // create the Builder Class
-         ClassBodyStep step = JavaDsl.class_()
-                                     .package_(toBuild.getPackage().getQualifiedName())
-                                     .name(toBuild.getName() + "DerivandiBuilder");
+         ClassBodyStep step = class_().package_(toBuild.getPackage().getQualifiedName())
+                                      .name(toBuild.getName() + "DerivandiBuilder");
 
          String toBuildVariableName = uncapitalize(toBuild.getName());
          List<String> setterInvocations = new ArrayList<>();
@@ -48,17 +49,17 @@ public class DerivandiBuilderProcessor
 
             // render the existing field if possible, otherwise create a new one
             step = property.getField().map(step::field)
-                           .orElse(step.field(JavaDsl.field().private_().type(property.getType()).name(propertyName)));
-
+                           .orElse(step.field(field().private_()
+                                                     .type(property.getType())
+                                                     .name(propertyName)));
             // render the wither
-            step = step.method(JavaDsl.method()
-                                      .public_()
-                                      .resultType(step)//use the builder type
-                                      .name("with" + capitalize(propertyName))
-                                      .parameter(JavaDsl.parameter(property.getType(), propertyName))
-                                      .body("""
-                                            this.%1$s = %1$s;
-                                            return this;""".formatted(propertyName)));
+            step = step.method(method().public_()
+                                       .resultType(step)//use the builder type
+                                       .name("with" + capitalize(propertyName))
+                                       .parameter(parameter(property.getType(), propertyName))
+                                       .body("""
+                                             this.%1$s = %1$s;
+                                             return this;""".formatted(propertyName)));
 
             // collect all setter invocations for the object being build
             setterInvocations.add(toBuildVariableName + "." +
@@ -67,8 +68,8 @@ public class DerivandiBuilderProcessor
          }
 
          // render the build method
-         step = step.method(JavaDsl.method().public_().resultType(toBuild).name("build")
-                                   .body("""
+         step = step.method(method().public_().resultType(toBuild).name("build")
+                                    .body("""
                                          %1$s %2$s = new %1$s();
                                          %3$s
                                          return %2$s;

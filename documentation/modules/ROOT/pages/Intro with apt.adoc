@@ -59,7 +59,7 @@ This API uses Optional and is null safe.
 
 == Typesafe Annotation Mirrors
 
-The generation of Typesafe Annotation Mirrors is possible using `com.derivandi.api.generate.GenerateTypesafeUsage` or `com.derivandi.api.generate.GenerateTypesafeUsage`
+The generation of Typesafe Annotation Mirrors is possible using `com.derivandi.api.generate.GenerateTypesafeUsage`
 
 == Processor Builder
 
