@@ -16,7 +16,7 @@ import java.util.Set;
 
 import static java.lang.System.out;
 
-public abstract class Processor
+public abstract class DerivandiProcessor
       extends AbstractProcessor
 {
    private ProcessorConfigurationImpl<Object> configuration;

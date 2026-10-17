@@ -2,7 +2,7 @@ package com.derivandi.builder;
 
 import com.derivandi.api.D;
 import com.derivandi.api.dsl.class_.ClassBodyStep;
-import com.derivandi.api.processor.Processor;
+import com.derivandi.api.processor.DerivandiProcessor;
 import com.derivandi.api.processor.ProcessorBuilder;
 import com.derivandi.api.processor.ProcessorConfiguration;
 import com.derivandi.api.processor.SimpleContext;
@@ -17,7 +17,7 @@ import static org.apache.commons.lang3.StringUtils.uncapitalize;
 
 /// Builds a companion Builder class for each annotated class
 public class DerivandiBuilderProcessor
-      extends Processor
+      extends DerivandiProcessor
 {
    private static final String BUILDER_PATTERN = "com.derivandi.builder.BuilderPattern";
 

@@ -3,7 +3,7 @@ package com.derivandi.article.intro.validation;
 //@formatter:off
 //tag::content[]
 import com.derivandi.api.D;
-import com.derivandi.api.processor.Processor;
+import com.derivandi.api.processor.DerivandiProcessor;
 import com.derivandi.api.processor.ProcessorBuilder;
 import com.derivandi.api.processor.ProcessorConfiguration;
 import com.derivandi.api.processor.SimpleContext;
@@ -11,7 +11,7 @@ import com.derivandi.api.processor.SimpleContext;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class ValidationProcessor extends Processor {
+public class ValidationProcessor extends DerivandiProcessor {
 
    @Override
    public ProcessorConfiguration buildProcessor(ProcessorBuilder processorBuilder) {

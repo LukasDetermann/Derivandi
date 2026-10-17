@@ -1,9 +1,6 @@
 package com.derivandi.internal.test;
 
-import com.derivandi.api.processor.ProcessingCallback;
-import com.derivandi.api.processor.ProcessorBuilder;
-import com.derivandi.api.processor.ProcessorConfiguration;
-import com.derivandi.api.processor.SimpleContext;
+import com.derivandi.api.processor.*;
 import com.derivandi.api.test.ProcessorTest;
 
 import javax.annotation.processing.Processor;
@@ -140,7 +137,7 @@ public class ProcessorTestImpl implements ProcessorTest
 
    private Processor createProcessor(ProcessingCallback<SimpleContext> processingCallback)
    {
-      return new com.derivandi.api.processor.Processor()
+      return new DerivandiProcessor()
       {
          @Override
          public ProcessorConfiguration buildProcessor(ProcessorBuilder processorBuilder)

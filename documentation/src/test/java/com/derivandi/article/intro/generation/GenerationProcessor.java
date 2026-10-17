@@ -7,7 +7,7 @@ import com.derivandi.api.dsl.JavaDsl;
 import com.derivandi.api.dsl.class_.ClassBodyStep;
 import com.derivandi.api.dsl.constructor.ConstructorRenderable;
 import com.derivandi.api.dsl.method.MethodRenderable;
-import com.derivandi.api.processor.Processor;
+import com.derivandi.api.processor.DerivandiProcessor;
 import com.derivandi.api.processor.ProcessorBuilder;
 import com.derivandi.api.processor.ProcessorConfiguration;
 import com.derivandi.api.processor.SimpleContext;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import static com.derivandi.api.dsl.JavaDsl.*;
 import static java.util.function.Predicate.not;
 
-public class GenerationProcessor extends Processor {
+public class GenerationProcessor extends DerivandiProcessor {
 
    @Override
    public ProcessorConfiguration buildProcessor(ProcessorBuilder processorBuilder) {

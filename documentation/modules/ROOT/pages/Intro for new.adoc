@@ -128,9 +128,4 @@ Therefore, it needs to be already compiled.
 Making multiple compilation Units necessary.
 Meaning multiple maven modules or equivalent in other build tools.
 
-
-== Examples
-
-* xref:Builder Example.adoc[Builder]
-* xref:Static Interface.adoc[Static Interface]
-* xref:Proxy Example.adoc[Proxy]
+include::examples.adoc[]

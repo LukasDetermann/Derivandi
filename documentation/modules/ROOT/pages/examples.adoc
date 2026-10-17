@@ -1,0 +1,5 @@
+== Examples
+
+* xref:Builder Example.adoc[Builder]
+* xref:Static Interface.adoc[Static Interface]
+* xref:Proxy Example.adoc[Proxy]

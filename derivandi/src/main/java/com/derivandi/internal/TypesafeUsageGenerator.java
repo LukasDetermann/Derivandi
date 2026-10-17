@@ -10,7 +10,7 @@ import com.derivandi.api.dsl.interface_.InterfaceGenericStep;
 import com.derivandi.api.dsl.interface_.InterfaceRenderable;
 import com.derivandi.api.dsl.method.MethodRenderable;
 import com.derivandi.api.dsl.package_.PackageRenderable;
-import com.derivandi.api.processor.Processor;
+import com.derivandi.api.processor.DerivandiProcessor;
 import com.derivandi.api.processor.ProcessorBuilder;
 import com.derivandi.api.processor.ProcessorConfiguration;
 import com.derivandi.api.processor.SimpleContext;
@@ -29,7 +29,7 @@ import static java.lang.Character.toLowerCase;
 
 @NotNullByDefault
 public class TypesafeUsageGenerator
-      extends Processor
+      extends DerivandiProcessor
 {
    private static final String GENERATE_TYPESAFE_USAGE_NAME = "com.derivandi.api.generate.GenerateTypesafeUsage";
 

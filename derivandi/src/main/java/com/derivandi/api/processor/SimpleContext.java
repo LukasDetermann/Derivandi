@@ -28,7 +28,7 @@ import static com.derivandi.api.dsl.RenderingContext.createRenderingContext;
  *    <li>log using {@link #logAndRaiseError(String)} or log at {@link #logAndRaiseErrorAt(D.Annotationable, String)}</li>
  * </ul>
  *
- * @see Processor
+ * @see DerivandiProcessor
  * @see D.Type
  */
 public interface SimpleContext
