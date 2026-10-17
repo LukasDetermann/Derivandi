@@ -10,8 +10,8 @@ The code written with this Library runs in the java compiler.
 It takes in source files and outputs class files.
 Derivandi can do two things:
 
-. <<_code_generation>>
-. <<_validation>>
+. code generation
+. validation
 
 
 == Annotations
@@ -130,3 +130,7 @@ Meaning multiple maven modules or equivalent in other build tools.
 
 
 == Examples
+
+* xref:Builder Example.adoc[Builder]
+* xref:Static Interface.adoc[Static Interface]
+* xref:Proxy Example.adoc[Proxy]
