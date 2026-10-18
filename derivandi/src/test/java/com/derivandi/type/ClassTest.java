@@ -122,7 +122,7 @@ class ClassTest
    }
 
    @Test
-   void getPermittedSubClasses()
+   void getPermittedSubclasses()
    {
       processorTest().withCodeToCompile("PermittedSubClassesExample.java", """
                                                                            public sealed class PermittedSubClassesExample permits PermittedSubClassesExample.Child
@@ -135,7 +135,7 @@ class ClassTest
                                  List<D.Class> expected = List.of(context.getClassOrThrow("PermittedSubClassesExample.Child"));
 
                                  D.Class permittedSubClassesExample = context.getClassOrThrow("PermittedSubClassesExample");
-                                 assertEquals(expected, permittedSubClassesExample.getPermittedSubClasses());
+                                 assertEquals(expected, permittedSubClassesExample.getPermittedSubclasses());
                               });
    }
 

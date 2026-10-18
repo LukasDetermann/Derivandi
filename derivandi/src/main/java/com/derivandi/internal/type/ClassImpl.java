@@ -55,7 +55,7 @@ public class ClassImpl
    }
 
    @Override
-   public List<D.Class> getPermittedSubClasses()
+   public List<D.Class> getPermittedSubclasses()
    {
       return getElement().getPermittedSubclasses()
                          .stream()
@@ -161,7 +161,7 @@ public class ClassImpl
             .map(extendsStep::extends_)
             .orElse(extendsStep)
             .implements_(getDirectInterfaces())
-            .permits(getPermittedSubClasses())
+            .permits(getPermittedSubclasses())
             .field(getFields())
             .method(getMethods())
             .constructor(getConstructors())

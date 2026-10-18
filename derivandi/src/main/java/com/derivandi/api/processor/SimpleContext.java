@@ -271,7 +271,7 @@ public interface SimpleContext
     * @see #writeAndCompileSourceFile(String, String)
     * @see #writeClassFile(String, String)
     */
-   Set<D.Package> gePackagesAnnotatedWith(D.Annotation annotation);
+   Set<D.Package> getPackagesAnnotatedWith(D.Annotation annotation);
 
    /**
     * Looks up annotated elements in currently compiled code. <br>
@@ -291,7 +291,7 @@ public interface SimpleContext
     * @see #writeAndCompileSourceFile(String, String)
     * @see #writeClassFile(String, String)
     */
-   Set<D.Generic> geGenericsAnnotatedWith(D.Annotation annotation);
+   Set<D.Generic> getGenericsAnnotatedWith(D.Annotation annotation);
 
    /**
     * Looks up annotated elements in currently compiled code. <br>
@@ -311,7 +311,7 @@ public interface SimpleContext
     * @see #writeAndCompileSourceFile(String, String)
     * @see #writeClassFile(String, String)
     */
-   Set<D.Module> geModulesAnnotatedWith(D.Annotation annotation);
+   Set<D.Module> getModulesAnnotatedWith(D.Annotation annotation);
 
    /**
     * Looks up annotated elements in currently compiled code. <br>
@@ -331,7 +331,7 @@ public interface SimpleContext
     * @see #writeAndCompileSourceFile(String, String)
     * @see #writeClassFile(String, String)
     */
-   Set<D.RecordComponent> geRecordComponentsAnnotatedWith(D.Annotation annotation);
+   Set<D.RecordComponent> getRecordComponentsAnnotatedWith(D.Annotation annotation);
 
    /**
     * the created file will be registered for the next annotation processor round. writes .java files

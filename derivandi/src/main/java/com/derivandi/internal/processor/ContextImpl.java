@@ -225,7 +225,7 @@ public class ContextImpl
    }
 
    @Override
-   public Set<D.Package> gePackagesAnnotatedWith(D.Annotation annotation)
+   public Set<D.Package> getPackagesAnnotatedWith(D.Annotation annotation)
    {
       return getAnnotated(annotation, D.Package.class);
    }
@@ -237,7 +237,7 @@ public class ContextImpl
    }
 
    @Override
-   public Set<D.Generic> geGenericsAnnotatedWith(D.Annotation annotation)
+   public Set<D.Generic> getGenericsAnnotatedWith(D.Annotation annotation)
    {
       return getAnnotated(annotation, D.Generic.class);
    }
@@ -249,7 +249,7 @@ public class ContextImpl
    }
 
    @Override
-   public Set<D.Module> geModulesAnnotatedWith(D.Annotation annotation)
+   public Set<D.Module> getModulesAnnotatedWith(D.Annotation annotation)
    {
       return getAnnotated(annotation, D.Module.class);
    }
@@ -261,7 +261,7 @@ public class ContextImpl
    }
 
    @Override
-   public Set<D.RecordComponent> geRecordComponentsAnnotatedWith(D.Annotation annotation)
+   public Set<D.RecordComponent> getRecordComponentsAnnotatedWith(D.Annotation annotation)
    {
       return getAnnotated(annotation, D.RecordComponent.class);
    }

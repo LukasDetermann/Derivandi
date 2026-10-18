@@ -531,7 +531,7 @@ public interface D
        */
       @Nullable Class getSuperClass();
 
-      List<Class> getPermittedSubClasses();
+      List<Class> getPermittedSubclasses();
 
       List<Property> getProperties();
 
