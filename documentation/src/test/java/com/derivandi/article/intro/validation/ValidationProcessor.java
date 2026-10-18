@@ -24,7 +24,7 @@ public class ValidationProcessor extends DerivandiProcessor {
 
       for (D.Declared annotated : context.getDeclaredAnnotatedWith(staticInterface)) {
 
-         D.AnnotationUsage staticInterfaceUsage = annotated.getUsageOfOrThrow(staticInterface);
+         D.AnnotationUsage staticInterfaceUsage = annotated.getFirstUsageOfOrThrow(staticInterface);
          D.AnnotationValue value = staticInterfaceUsage.getValueOrThrow("value");
          D.Type usedType = ((D.AnnotationValue.TypeValue) value).getValue();
 

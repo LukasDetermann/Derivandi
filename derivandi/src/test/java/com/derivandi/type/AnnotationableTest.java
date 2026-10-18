@@ -40,7 +40,7 @@ class AnnotationableTest
                                  assertFalse(cDeclared.isDirectlyAnnotatedWith(standaloneAnnotation));
                                  assertFalse(cDeclared.isDirectlyAnnotatedWith(inheritedAnnotation));
 
-                                 assertTrue(cDeclared.getDirectUsageOf(standaloneAnnotation).isEmpty());
+                                 assertTrue(cDeclared.getFirstDirectUsageOf(standaloneAnnotation).isEmpty());
                                  assertTrue(cDeclared.getDirectUsagesOf(inheritedAnnotation).isEmpty());
 
                                  //inherited
@@ -51,8 +51,8 @@ class AnnotationableTest
                                  assertFalse(cDeclared.isAnnotatedWith(standaloneAnnotation));
                                  assertTrue(cDeclared.isAnnotatedWith(inheritedAnnotation));
 
-                                 assertTrue(cDeclared.getUsageOf(standaloneAnnotation).isEmpty());
-                                 assertTrue(cDeclared.getUsageOf(inheritedAnnotation).isPresent());
+                                 assertTrue(cDeclared.getFirstUsageOf(standaloneAnnotation).isEmpty());
+                                 assertTrue(cDeclared.getFirstUsageOf(inheritedAnnotation).isPresent());
                               });
    }
 }

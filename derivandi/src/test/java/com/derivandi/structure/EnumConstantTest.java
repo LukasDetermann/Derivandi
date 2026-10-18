@@ -27,7 +27,7 @@ class EnumConstantTest
       processorTest().process(context ->
                               {
                                  D.Annotation retention = context.getAnnotationOrThrow("java.lang.annotation.Retention");
-                                 D.AnnotationUsage retentionUsage = retention.getUsageOfOrThrow(retention);
+                                 D.AnnotationUsage retentionUsage = retention.getFirstUsageOfOrThrow(retention);
                                  RetentionPolicy value = Enum.valueOf(RetentionPolicy.class,
                                                                       ((D.NestedAnnotationValue.EnumValue) retentionUsage
                                                                             .getValueOrThrow("value")).getValue().getName());
@@ -54,7 +54,7 @@ class EnumConstantTest
                      .process(context ->
                               {
                                  D.Annotation retention = context.getAnnotationOrThrow("MyAnnotation");
-                                 D.AnnotationUsage retentionUsage = retention.getUsageOfOrThrow(retention);
+                                 D.AnnotationUsage retentionUsage = retention.getFirstUsageOfOrThrow(retention);
                                  D.EnumConstant value = ((D.NestedAnnotationValue.EnumValue) retentionUsage.getValueOrThrow("value")).getValue();
 
                                  Assertions.assertEquals("A", value.getName());

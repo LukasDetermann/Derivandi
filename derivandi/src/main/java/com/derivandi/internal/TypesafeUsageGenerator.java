@@ -62,7 +62,7 @@ public class TypesafeUsageGenerator
                             //noinspection unchecked
                             return context.getAnnotatedWith(annotation)
                                           .stream()
-                                          .map(annotation1 -> annotation1.getUsageOfOrThrow(annotation))
+                                          .map(annotation1 -> annotation1.getFirstUsageOfOrThrow(annotation))
                                           .map(annotationUsage -> annotationUsage.getValueOrThrow("value"))
                                           .map(annotationValue -> ((D.AnnotationValue.Values<D.AnnotationValue.TypeValue>) annotationValue))
                                           .map(D.AnnotationValue.Values::getValue)

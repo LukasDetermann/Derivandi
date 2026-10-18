@@ -58,44 +58,24 @@ public interface D
                                      .toList();
       }
 
-      default Optional<AnnotationUsage> getUsageOf(Annotation annotation)
+      default Optional<AnnotationUsage> getFirstUsageOf(Annotation annotation)
       {
-         List<AnnotationUsage> usages = getUsagesOf(annotation);
-
-         if (usages.isEmpty())
-         {
-            return Optional.empty();
-         }
-         if (usages.size() == 1)
-         {
-            return Optional.of(usages.get(0));
-         }
-         throw new IllegalArgumentException();
+         return getUsagesOf(annotation).stream().findFirst();
       }
 
-      default Optional<AnnotationUsage> getUsageOf(String annotation)
+      default Optional<AnnotationUsage> getFirstUsageOf(String annotation)
       {
-         List<AnnotationUsage> usages = getUsagesOf(annotation);
-
-         if (usages.isEmpty())
-         {
-            return Optional.empty();
-         }
-         if (usages.size() == 1)
-         {
-            return Optional.of(usages.get(0));
-         }
-         throw new IllegalArgumentException();
+         return getUsagesOf(annotation).stream().findFirst();
       }
 
-      default AnnotationUsage getUsageOfOrThrow(Annotation annotation)
+      default AnnotationUsage getFirstUsageOfOrThrow(Annotation annotation)
       {
-         return getUsageOf(annotation).orElseThrow(IllegalArgumentException::new);
+         return getFirstUsageOf(annotation).orElseThrow(IllegalArgumentException::new);
       }
 
-      default AnnotationUsage getUsageOfOrThrow(String annotation)
+      default AnnotationUsage getFirstUsageOfOrThrow(String annotation)
       {
-         return getUsageOf(annotation).orElseThrow(IllegalArgumentException::new);
+         return getFirstUsageOf(annotation).orElseThrow(IllegalArgumentException::new);
       }
 
       default boolean isAnnotatedWith(Annotation annotation)
@@ -131,28 +111,28 @@ public interface D
                                            .toList();
       }
 
-      default Optional<AnnotationUsage> getDirectUsageOf(Annotation annotation)
+      default Optional<AnnotationUsage> getFirstDirectUsageOf(Annotation annotation)
       {
          return getDirectAnnotationUsages().stream()
                                            .filter(usage -> usage.getAnnotation().equals(annotation))
-                                           .findAny();
+                                           .findFirst();
       }
 
-      default Optional<AnnotationUsage> getDirectUsageOf(String annotation)
+      default Optional<AnnotationUsage> getFirstDirectUsageOf(String annotation)
       {
          return getDirectAnnotationUsages().stream()
                                            .filter(usage -> usage.getAnnotation().getQualifiedName().equals(annotation))
-                                           .findAny();
+                                           .findFirst();
       }
 
-      default AnnotationUsage getDirectUsageOfOrThrow(Annotation annotation)
+      default AnnotationUsage getFirstDirectUsageOfOrThrow(Annotation annotation)
       {
-         return getDirectUsageOf(annotation).orElseThrow();
+         return getFirstDirectUsageOf(annotation).orElseThrow();
       }
 
-      default AnnotationUsage getDirectUsageOfOrThrow(String annotation)
+      default AnnotationUsage getFirstDirectUsageOfOrThrow(String annotation)
       {
-         return getDirectUsageOf(annotation).orElseThrow();
+         return getFirstDirectUsageOf(annotation).orElseThrow();
       }
 
       default boolean isDirectlyAnnotatedWith(Annotation annotation)
