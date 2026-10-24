@@ -26,6 +26,4 @@ public interface ProcessorConfigurationImpl<OPTIONS>
    BiConsumer<SimpleContext, Throwable> getExceptionHandler();
 
    BiConsumer<SimpleContext, DiagnosticContext> getDiagnosticHandler();
-
-   BiConsumer<SimpleContext, String> getSystemOutHandler();
 }

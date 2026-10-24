@@ -65,11 +65,11 @@ The generation of Typesafe Annotation Mirrors is possible using `com.derivandi.a
 
 The `com.derivandi.api.processor.ProcessorBuilder` guides when writing an Annotation Processor with sensible defaults.
 
-== System out and Exception Handling
+== Exception Handling
 
-Both just work out of the box.
+just works out of the box.
 
-Processor specific Exception handling and usage of the proper logging APIs is recommended.
+Processor specific Exception handling is recommended.
 
 == Adapters
 

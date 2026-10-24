@@ -3,7 +3,6 @@ package com.derivandi.api.processor;
 import com.derivandi.internal.processor.ContextImpl;
 import com.derivandi.internal.processor.ProcessorBuilderImpl;
 import com.derivandi.internal.processor.ProcessorConfigurationImpl;
-import com.derivandi.internal.processor.ProxyPrintStream;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
@@ -13,8 +12,6 @@ import javax.lang.model.element.TypeElement;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
-
-import static java.lang.System.out;
 
 public abstract class DerivandiProcessor
       extends AbstractProcessor
@@ -38,8 +35,6 @@ public abstract class DerivandiProcessor
       ProcessorConfiguration processorConfiguration = buildProcessor(new ProcessorBuilderImpl());
       //noinspection unchecked
       configuration = (ProcessorConfigurationImpl<Object>) Objects.requireNonNull(processorConfiguration);
-
-      proxySystemOut();
    }
 
    public abstract ProcessorConfiguration buildProcessor(ProcessorBuilder processorBuilder);
@@ -90,17 +85,5 @@ public abstract class DerivandiProcessor
 
       //claiming annotations is kinda useless
       return false;
-   }
-
-   private void proxySystemOut()
-   {
-      if (out instanceof ProxyPrintStream)
-      {
-         return;
-      }
-      System.setOut(new ProxyPrintStream(out,
-                                         out.charset(),
-                                         configuration.getSystemOutHandler(),
-                                         () -> context));
    }
 }

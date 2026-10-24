@@ -15,10 +15,4 @@ public interface HandlerStep extends ProcessorConfiguration
     */
    @Contract(value = "_ -> new", pure = true)
    HandlerStep withDiagnosticHandler(BiConsumer<SimpleContext, DiagnosticContext> diagnosticHandler);
-
-   /**
-    * Some {@link javax.tools.Tool} don't support {@link System#out}. By default, it is proxied and redirected to the logger as warning
-    */
-   @Contract(value = "_ -> new", pure = true)
-   HandlerStep withSystemOutHandler(BiConsumer<SimpleContext, String> systemOutHandler);
 }

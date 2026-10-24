@@ -1,6 +1,5 @@
 package com.derivandi.internal.processor;
 
-import com.derivandi.api.adapter.Adapters;
 import com.derivandi.api.processor.DiagnosticContext;
 import com.derivandi.api.processor.HandlerStep;
 import com.derivandi.api.processor.ProcessingCallback;
@@ -25,7 +24,6 @@ public class HandlerStepImpl<OPTIONS>
    private final ProcessingCallback<SimpleContext> processingCallable;
    private BiConsumer<SimpleContext, Throwable> exceptionHandler = createDefaultExceptionHandler();
    private BiConsumer<SimpleContext, DiagnosticContext> diagnosticHandler = createDefaultDiagnosticHandler();
-   private BiConsumer<SimpleContext, String> systemOutHandler = createDefaultSystemOutHandler();
 
    HandlerStepImpl(Set<String> supportedOptions,
                    Function<Map<String, String>, OPTIONS> optionsMapper,
@@ -57,7 +55,6 @@ public class HandlerStepImpl<OPTIONS>
       this.processingCallable = other.processingCallable;
       this.exceptionHandler = other.exceptionHandler;
       this.diagnosticHandler = other.diagnosticHandler;
-      this.systemOutHandler = other.systemOutHandler;
    }
 
    @Override
@@ -75,15 +72,6 @@ public class HandlerStepImpl<OPTIONS>
       Objects.requireNonNull(diagnosticHandler);
       HandlerStepImpl<OPTIONS> copy = new HandlerStepImpl<>(this);
       copy.diagnosticHandler = diagnosticHandler;
-      return copy;
-   }
-
-   @Override
-   public HandlerStep withSystemOutHandler(BiConsumer<SimpleContext, String> systemOutHandler)
-   {
-      Objects.requireNonNull(systemOutHandler);
-      HandlerStepImpl<OPTIONS> copy = new HandlerStepImpl<>(this);
-      copy.systemOutHandler = systemOutHandler;
       return copy;
    }
 
@@ -116,17 +104,6 @@ public class HandlerStepImpl<OPTIONS>
                             " in round " +
                             diagnosticContext.getProcessingRound() +
                             "\n");
-         }
-      };
-   }
-
-   private static @NotNull BiConsumer<SimpleContext, String> createDefaultSystemOutHandler()
-   {
-      return (context, s) ->
-      {
-         if (!Adapters.adapt(context).toProcessingEnvironment().toString().startsWith("javac"))
-         {
-            context.logWarning(s);
          }
       };
    }
@@ -165,11 +142,5 @@ public class HandlerStepImpl<OPTIONS>
    public BiConsumer<SimpleContext, DiagnosticContext> getDiagnosticHandler()
    {
       return diagnosticHandler;
-   }
-
-   @Override
-   public BiConsumer<SimpleContext, String> getSystemOutHandler()
-   {
-      return systemOutHandler;
    }
 }
