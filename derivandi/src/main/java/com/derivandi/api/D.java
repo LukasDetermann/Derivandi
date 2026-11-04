@@ -191,7 +191,6 @@ public interface D
       {
          @Override
          String getValue();
-         String getDefaultValue();
       }
 
       non-sealed interface BooleanValue
@@ -287,7 +286,7 @@ public interface D
       /// is this the default value specified in the annotation?
       boolean isDefault();
 
-      Object getDefaultValue();
+      Optional<? extends Object> getExplicitValue();
 
       non-sealed interface StringValue
             extends AnnotationValue,
@@ -297,7 +296,7 @@ public interface D
          String getValue();
 
          @Override
-         String getDefaultValue();
+         Optional<String> getExplicitValue();
       }
 
       non-sealed interface BooleanValue
@@ -308,7 +307,7 @@ public interface D
          Boolean getValue();
 
          @Override
-         Boolean getDefaultValue();
+         Optional<Boolean> getExplicitValue();
       }
 
       non-sealed interface ByteValue
@@ -319,7 +318,7 @@ public interface D
          Byte getValue();
 
          @Override
-         Byte getDefaultValue();
+         Optional<Byte> getExplicitValue();
       }
 
       non-sealed interface ShortValue
@@ -330,7 +329,7 @@ public interface D
          Short getValue();
 
          @Override
-         Short getDefaultValue();
+         Optional<Short> getExplicitValue();
       }
 
       non-sealed interface IntegerValue
@@ -341,7 +340,7 @@ public interface D
          Integer getValue();
 
          @Override
-         Integer getDefaultValue();
+         Optional<Integer> getExplicitValue();
       }
 
       non-sealed interface LongValue
@@ -352,7 +351,7 @@ public interface D
          Long getValue();
 
          @Override
-         Long getDefaultValue();
+         Optional<Long> getExplicitValue();
       }
 
       non-sealed interface CharacterValue
@@ -363,7 +362,7 @@ public interface D
          Character getValue();
 
          @Override
-         Character getDefaultValue();
+         Optional<Character> getExplicitValue();
       }
 
       non-sealed interface FloatValue
@@ -374,7 +373,7 @@ public interface D
          Float getValue();
 
          @Override
-         Float getDefaultValue();
+         Optional<Float> getExplicitValue();
       }
 
       non-sealed interface DoubleValue
@@ -385,7 +384,7 @@ public interface D
          Double getValue();
 
          @Override
-         Double getDefaultValue();
+         Optional<Double> getExplicitValue();
       }
 
       non-sealed interface TypeValue
@@ -396,7 +395,7 @@ public interface D
          Type getValue();
 
          @Override
-         Type getDefaultValue();
+         Optional<Type> getExplicitValue();
       }
 
       non-sealed interface EnumValue
@@ -407,7 +406,7 @@ public interface D
          EnumConstant getValue();
 
          @Override
-         EnumConstant getDefaultValue();
+         Optional<EnumConstant> getExplicitValue();
       }
 
       non-sealed interface AnnotationUsageValue
@@ -418,7 +417,7 @@ public interface D
          AnnotationUsage getValue();
 
          @Override
-         AnnotationUsage getDefaultValue();
+         Optional<AnnotationUsage> getExplicitValue();
       }
 
       non-sealed interface Values<T extends NestedAnnotationValue>
@@ -429,7 +428,7 @@ public interface D
          List<T> getValue();
 
          @Override
-         List<T> getDefaultValue();
+         Optional<List<T>> getExplicitValue();
       }
    }
 

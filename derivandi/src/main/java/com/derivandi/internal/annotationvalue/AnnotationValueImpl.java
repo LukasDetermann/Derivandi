@@ -17,7 +17,7 @@ public abstract class AnnotationValueImpl<R>
 {
    protected final SimpleContext context;
    private final AnnotationValue annotationValue;
-   private final @Nullable R value;
+   private final @Nullable R explicitValue;
    private final AnnotationValue defaultAnnotationValue;
    private final R valueOrDefault;
 
@@ -209,20 +209,20 @@ public abstract class AnnotationValueImpl<R>
 
    private AnnotationValueImpl(SimpleContext context,
                                AnnotationValue annotationValue,
-                               @Nullable R value,
+                               @Nullable R explicitValue,
                                AnnotationValue defaultAnnotationValue,
                                R valueOrDefault)
    {
       this.context = context;
       this.annotationValue = annotationValue;
-      this.value = value;
+      this.explicitValue = explicitValue;
       this.defaultAnnotationValue = defaultAnnotationValue;
       this.valueOrDefault = valueOrDefault;
    }
 
    public boolean isDefault()
    {
-      return value == null;
+      return explicitValue == null;
    }
 
    public Optional<AnnotationValue> getAnnotationValue()
@@ -237,12 +237,12 @@ public abstract class AnnotationValueImpl<R>
 
    public R getValue()
    {
-      return value == null ? valueOrDefault : value;
+      return valueOrDefault;
    }
 
-   public R getDefaultValue()
+   public Optional<R> getExplicitValue()
    {
-      return valueOrDefault;
+      return Optional.ofNullable(explicitValue);
    }
 
    public String render(RenderingContext renderingContext)
@@ -274,23 +274,21 @@ public abstract class AnnotationValueImpl<R>
    public boolean equals(Object other)
    {
       return other instanceof D.AnnotationValue annotationValue1 &&
-             Objects.equals(isDefault(), annotationValue1.isDefault()) &&
              Objects.equals(getValue(), annotationValue1.getValue());
    }
 
    @Override
    public int hashCode()
    {
-      return Objects.hash(isDefault(), getValue());
+      return Objects.hash(getValue());
    }
 
    @Override
    public String toString()
    {
-      return "AnnotationValue{" +
-             "default=" + isDefault() +
-             ", value=" + getValue() +
-             ", defaultValue=" + getDefaultValue() +
+      return "AnnotationValueImpl{" +
+             "explicitValue=" + explicitValue +
+             ", value=" + valueOrDefault +
              '}';
    }
 }
