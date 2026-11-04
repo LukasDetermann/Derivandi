@@ -1,0 +1,14 @@
+== From runtime reflection to compile-time safety
+
+Reflection is a form of runtime metaprogramming:
+Java code can inspect and invoke other code while the application is running.
+
+Metaprogramming can happen throughout an application’s lifecycle, from writing source code to executing bytecode.
+Some kind of metaprogramming is possible at basically every stage.
+Java build-tool APIs, annotation processors, instrumentation Agents, and debugger APIs all offer ways to work with code, but they have different capabilities.
+
+In general, metaprogramming performed earlier in the lifecycle can make errors easier to catch, while runtime techniques often offer greater flexibility.
+For many applications, that can be a worthwhile trade-off.
+
+
+include::introduction.adoc[]

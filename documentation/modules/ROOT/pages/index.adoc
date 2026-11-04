@@ -19,13 +19,13 @@ It is based on Annotation Processing, also called Annotation Processing Tool (AP
 - dependency free
 
 
-== Guides
+== Introductions
 
-Depending on your background, there are different guides:
+Depending on your background, there are different introductions:
 
-- xref:Intro for new.adoc[new to metaprogramming]
-- xref:Intro with meta.adoc[proficient in reflection or another metaprogramming technic]
-- xref:Intro with apt.adoc[proficient in annotation processing]
+- xref:From ordinary Java to generated code.adoc[From ordinary Java to generated code]
+- xref:From runtime reflection to compile-time safety.adoc[From runtime reflection to compile-time safety]
+- xref:From annotation processing to simpler code generation.adoc[From annotation processing to simpler code generation]
 
 
 include::examples.adoc[]
@@ -35,32 +35,32 @@ include::examples.adoc[]
 
 === Dependency
 ```xml
-	<dependencies>
-		<dependency>
-			<groupId>com.derivandi</groupId>
-			<artifactId>derivandi</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
+<dependencies>
+	<dependency>
+		<groupId>com.derivandi</groupId>
+		<artifactId>derivandi</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</dependency>
+</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>com.derivandi</groupId>
-							<artifactId>derivandi</artifactId>
-							<version>1.0.0-SNAPSHOT</version>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>${maven-compiler-plugin.version}</version>
+			<configuration>
+				<annotationProcessorPaths>
+					<path>
+						<groupId>com.derivandi</groupId>
+						<artifactId>derivandi</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</path>
+				</annotationProcessorPaths>
+			</configuration>
+		</plugin>
+	</plugins>
+</build>
 ```
 === Processor
 
@@ -71,9 +71,9 @@ import com.derivandi.api.D;
 import com.derivandi.api.processor.*;
 
 
-public final class MyProcessor extends DerivandiProcessor
-{
-	@Override
+public final class MyProcessor extends DerivandiProcessor {
+
+   @Override
 	public ProcessorConfiguration buildProcessor(ProcessorBuilder builder) {
 		return builder.process(BuildableProcessor::process);
 	}

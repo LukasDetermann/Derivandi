@@ -1,8 +1,8 @@
 * xref:index.adoc[Overview]
 * Introductions
-** xref:Intro for new.adoc[new to metaprogramming]
-** xref:Intro with meta.adoc[proficient in reflection]
-** xref:Intro with apt.adoc[proficient in annotation processing]
+** xref:From ordinary Java to generated code.adoc[From ordinary Java to generated code]
+** xref:From runtime reflection to compile-time safety.adoc[From runtime reflection to compile-time safety]
+** xref:From annotation processing to simpler code generation.adoc[From annotation processing to simpler code generation]
 * Examples
 ** xref:Builder Example.adoc[Builder]
 ** xref:Static Interface.adoc[Static Interface]

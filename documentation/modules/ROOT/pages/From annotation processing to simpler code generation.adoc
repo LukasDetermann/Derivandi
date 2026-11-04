@@ -1,6 +1,6 @@
-== Overview
+== From annotation processing to simpler code generation
 
-This guide is for people proficient in APT. Other guides are xref:index.adoc[available].
+This introduction is for people proficient in APT. Other introductions are xref:index.adoc[available].
 
 This project wraps and extends the Java APT API. It also adds a source file DSL API.
 

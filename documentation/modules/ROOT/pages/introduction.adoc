@@ -1,20 +1,4 @@
-== Overview
-
-Every program talks about something.
-A webshop will talk about products, customers, orders, and payments.
-Programs can also talk about other programs in the same way (metaprogramming).
-The lifecycle from writing code to its execution is long, and there are many different opportunities for metaprogramming.
-Each has different tradeoffs depending on the context.
-
-The code written with this library runs in the Java compiler.
-It takes in source files and outputs class files.
-Derivandi can do two things:
-
-. code generation
-. validation
-
-
-== Annotations
+== Refresher: Annotations
 
 Writing `CustomerEntity` or `@Entity Customer` represents the same information.
 The structured way of expressing metadata as annotations is just easier for tools to process.
@@ -31,9 +15,9 @@ The most relevant properties of annotations for compile-time metaprogramming are
 
 == Derivandi
 
-The core features are
+=== Core features
 
-=== Code Model
+==== Code Model
 
 It is possible to query the code model from modules down to method parameters.
 
@@ -48,7 +32,7 @@ for (D.Property property : string.getProperties()) {
 }
 ----
 
-=== JavaDsl
+==== JavaDsl
 
 The JavaDsl makes it easy to generate source files.
 The Code Model can be used with the JavaDsl.
@@ -64,7 +48,7 @@ JavaDsl.class_().package_("org.example")
              .renderDeclaration(RenderingContext.createRenderingContext());
 ----
 
-=== File Generation
+==== File Generation
 
 There are three kinds of files that can be generated.
 class files, resource files, and source files.
@@ -82,7 +66,7 @@ context.writeAndCompileSourceFile(JavaDsl.class_().package_("org.example")
                                          .constructor(JavaDsl.constructor().surroundingType()));
 ----
 
-=== Logging
+==== Logging
 
 Logging can be done on three levels: error, warning, or info.
 Errors will interrupt the compilation at the end of the current round.
@@ -98,9 +82,9 @@ context.logWarningAt(string, "let me warn you about Strings!");
 context.logInfo("i was here");
 ----
 
-== Compiler
+=== Compiler
 
-=== Overview
+==== Overview
 
 Derivandi runs in the compiler.
 Compilation happens in five steps.
@@ -121,7 +105,7 @@ TIP: This means that "normal" code can reference code that will only be generate
 Class files are generated
 
 
-=== Compilation Units
+==== Compilation Units
 
 Derivandi code is normal Java code that gets executed at compile time.
 Therefore, it needs to be compiled already.

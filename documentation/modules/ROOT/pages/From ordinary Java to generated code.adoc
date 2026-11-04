@@ -1,0 +1,17 @@
+== From ordinary Java to generated code
+
+Every program talks about something.
+A webshop will talk about products, customers, orders, and payments.
+Programs can also talk about other programs in the same way (metaprogramming).
+The lifecycle from writing code to its execution is long, and there are many different opportunities for metaprogramming.
+Each has different tradeoffs depending on the context.
+
+The code written with this library runs in the Java compiler.
+It takes in source files and outputs class files.
+Derivandi can do two things:
+
+. code generation
+. validation
+
+
+include::introduction.adoc[]
