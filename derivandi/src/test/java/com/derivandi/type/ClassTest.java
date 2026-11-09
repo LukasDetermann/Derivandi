@@ -52,7 +52,8 @@ class ClassTest
                                                      .withGenerics("java.lang.String",
                                                                    "java.lang.Number")
                                                      .getGenericUsages());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -97,7 +98,8 @@ class ClassTest
                                                                         .map(D.Generic::getBound)
                                                                         .orElseThrow();
                                  assertEquals(context.getClassOrThrow("java.lang.String"), interpolatedDependent);
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -108,7 +110,8 @@ class ClassTest
                                  D.Class integer = context.getClassOrThrow("java.lang.Integer");
                                  D.Class number = context.getClassOrThrow("java.lang.Number");
                                  assertEquals(integer.getSuperClass(), number);
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -118,7 +121,8 @@ class ClassTest
                               {
                                  D.Class object = context.getClassOrThrow("java.lang.Object");
                                  assertNull(object.getSuperClass());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -136,7 +140,8 @@ class ClassTest
 
                                  D.Class permittedSubClassesExample = context.getClassOrThrow("PermittedSubClassesExample");
                                  assertEquals(expected, permittedSubClassesExample.getPermittedSubclasses());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -156,7 +161,8 @@ class ClassTest
 
                                  assertEquals(1, directInterfaces.size());
                                  assertEquals(context.getDeclaredOrThrow("Direct"), directInterfaces.get(0));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -170,7 +176,8 @@ class ClassTest
                                  assertTrue(declaredLong.isSubtypeOf(number));
                                  assertTrue(declaredLong.isSubtypeOf(declaredLong));
                                  assertFalse(number.isSubtypeOf(declaredLong));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -187,7 +194,8 @@ class ClassTest
                                  assertFalse(number.isAssignableFrom(declaredLong));
 
                                  assertTrue(integer.isAssignableFrom(context.getConstants().getPrimitiveInt()));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -207,7 +215,8 @@ class ClassTest
                                  assertEquals(List.of(number), classParent.getDirectSuperTypes());
 
                                  assertEquals(List.of(number, comparable, consumer), classMixedParent.getDirectSuperTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -229,7 +238,8 @@ class ClassTest
 
                                  D.Class mixedParent = context.getClassOrThrow("ClassMixedParent");
                                  assertEquals(Set.of(object, number, serializable, comparable, consumer), mixedParent.getSuperTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -245,6 +255,7 @@ class ClassTest
                                  D.Declared inner = context.getDeclaredOrThrow("Outer.Inner");
                                  D.Declared outer = inner.getSurrounding().orElseThrow();
                                  assertEquals(context.getDeclaredOrThrow("Outer"), outer);
-                              });
+                              })
+                     .run();
    }
 }

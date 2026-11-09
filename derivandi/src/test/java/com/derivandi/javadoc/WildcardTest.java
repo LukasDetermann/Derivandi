@@ -18,6 +18,7 @@ public class WildcardTest
                                  D.Wildcard wildcard = number.asExtendsWildcard();
                                  Assertions.assertTrue(wildcard.contains(context.getClassOrThrow("java.lang.Long")));//@highlight substring="contains"
                                  //@end
-                              });
+                              })
+                     .run();
    }
 }

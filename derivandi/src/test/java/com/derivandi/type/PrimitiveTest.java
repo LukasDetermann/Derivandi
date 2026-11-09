@@ -23,6 +23,7 @@ class PrimitiveTest
                                  assertTrue(primitiveInt.isAssignableFrom(number));
                                  assertTrue(primitiveInt.isAssignableFrom(primitiveInt));
                                  assertFalse(primitiveInt.isAssignableFrom(string));
-                              });
+                              })
+                     .run();
    }
 }

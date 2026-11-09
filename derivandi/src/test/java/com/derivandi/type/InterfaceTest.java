@@ -42,7 +42,8 @@ class InterfaceTest
                                                      .withGenerics("java.lang.String",
                                                                    "java.lang.Number")
                                                      .getGenericUsages());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -87,7 +88,8 @@ class InterfaceTest
                                                                         .map(D.Generic::getBound)
                                                                         .orElseThrow();
                                  assertEquals(context.getClassOrThrow("java.lang.String"), interpolatedDependent);
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -101,7 +103,8 @@ class InterfaceTest
                                  assertEquals(0, function.getDirectInterfaces().size());
 
                                  assertEquals(List.of(function), unaryOperator.getDirectInterfaces());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -118,7 +121,8 @@ class InterfaceTest
                                  assertTrue(isFunctional.test("java.util.function.Function"));
                                  assertTrue(isFunctional.test("java.lang.Comparable"));
                                  assertFalse(isFunctional.test("java.util.List"));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -133,7 +137,8 @@ class InterfaceTest
                                  assertTrue(function.isSubtypeOf(object));
                                  assertTrue(function.isSubtypeOf(function));
                                  assertFalse(function.isSubtypeOf(number));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -161,7 +166,8 @@ class InterfaceTest
 
                                  D.Interface parent = context.getInterfaceOrThrow("DirektSuperTypeExample.InterfaceParent");
                                  assertEquals(List.of(object, comparable, consumer), parent.getDirectSuperTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -189,11 +195,12 @@ class InterfaceTest
 
                                  D.Interface parent = context.getInterfaceOrThrow("DirektSuperTypeExample.InterfaceParent");
                                  assertEquals(Set.of(object, comparable, consumer), parent.getSuperTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
-   void getSurounding()
+   void getSurrounding()
    {
       processorTest().withCodeToCompile("Outer.java", """
                                                       public interface Outer {
@@ -205,6 +212,7 @@ class InterfaceTest
                                  D.Declared inner = context.getDeclaredOrThrow("Outer.Inner");
                                  D.Declared outer = inner.getSurrounding().orElseThrow();
                                  assertEquals(context.getDeclaredOrThrow("Outer"), outer);
-                              });
+                              })
+                     .run();
    }
 }

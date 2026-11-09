@@ -19,7 +19,6 @@ public abstract class DerivandiProcessor
    private ProcessorConfigurationImpl<Object> configuration;
 
    private int processingRound = 0;
-   private ContextImpl context;
 
    @Override
    protected final synchronized boolean isInitialized()
@@ -67,7 +66,7 @@ public abstract class DerivandiProcessor
    public final boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv)
    {
       Instant start = Instant.now();
-      context = new ContextImpl(processingEnv, roundEnv, processingRound, configuration.getOptionsMapper().orElse(null));
+      Context<?> context = new ContextImpl(processingEnv, roundEnv, processingRound, configuration.getOptionsMapper().orElse(null));
       try
       {
          configuration.getProcessingCallable().process(context);

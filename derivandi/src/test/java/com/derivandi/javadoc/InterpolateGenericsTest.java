@@ -40,6 +40,7 @@ public class InterpolateGenericsTest
 
                                  Assertions.assertEquals(string, stringRep);
                                  //@end
-                              });
+                              })
+                     .run();
    }
 }

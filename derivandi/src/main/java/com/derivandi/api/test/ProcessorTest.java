@@ -4,6 +4,7 @@ import com.derivandi.api.processor.ProcessingCallback;
 import com.derivandi.api.processor.SimpleContext;
 import com.derivandi.internal.test.ProcessorTestImpl;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 
 import javax.annotation.processing.Processor;
 import java.io.File;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 @ApiStatus.Experimental
 public interface ProcessorTest
 {
+   @Contract(value = " -> new", pure = true)
    static ProcessorTest processorTest()
    {
       return new ProcessorTestImpl();
@@ -26,6 +28,7 @@ public interface ProcessorTest
     *
     * @return a new {@link ProcessorTest}
     */
+   @Contract(value = "_ -> new", pure = true)
    ProcessorTest withCodeToCompile(Path fileToCompile);
 
    /**
@@ -33,6 +36,7 @@ public interface ProcessorTest
     *
     * @return a new {@link ProcessorTest}
     */
+   @Contract(value = "_ -> new", pure = true)
    ProcessorTest withCodeToCompile(File fileToCompile);
 
    /**
@@ -43,6 +47,7 @@ public interface ProcessorTest
     *
     * @return a new {@link ProcessorTest}
     */
+   @Contract(value = "_,_ -> new", pure = true)
    ProcessorTest withCodeToCompile(String fileName, String code);
 
    /**
@@ -52,6 +57,7 @@ public interface ProcessorTest
     *
     * @return a new {@link ProcessorTest}
     */
+   @Contract(value = "_ -> new", pure = true)
    ProcessorTest withCompiledClass(String qualifiedName);
 
    /**
@@ -59,6 +65,7 @@ public interface ProcessorTest
     *
     * @return a new {@link ProcessorTest}
     */
+   @Contract(value = "_ -> new", pure = true)
    ProcessorTest withCompiledClass(Class<?> aClass);
 
    /**
@@ -66,9 +73,27 @@ public interface ProcessorTest
     *
     * @return a new {@link ProcessorTest}
     */
+   @Contract(value = "_ -> new", pure = true)
    ProcessorTest withOption(String option);
 
-   void process(ProcessingCallback<SimpleContext> processingCallback);
+   @Contract(value = "_ -> new", pure = true)
+   ProcessorTest process(ProcessingCallback<SimpleContext> processingCallback);
 
-   void process(Processor... processors);
+   @Contract(value = "_ -> new", pure = true)
+   ProcessorTest process(Processor... processors);
+
+   @Contract(value = "_ -> new", pure = true)
+   ProcessorTest withJavaFileCallback(JavaFileCallback javaFileCallback);
+
+   @Contract(value = "_ -> new", pure = true)
+   ProcessorTest withJavaSourceFileCallback(JavaSourceFileCallback javaSourceFileCallback);
+
+   @Contract(value = "_ -> new", pure = true)
+   ProcessorTest withJavaClassFileCallback(JavaClassFileCallback javaClassFileCallback);
+
+   @Contract(value = "_ -> new", pure = true)
+   ProcessorTest withOtherFileCallback(OtherFileCallback otherFileCallback);
+
+   @Contract(mutates = "this")
+   void run();
 }

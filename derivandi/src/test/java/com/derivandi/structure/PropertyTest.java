@@ -37,7 +37,8 @@ class PropertyTest
                                  assertEquals("getId", getter.getName());
                                  D.Method setter = properties.get(1).getSetterOrThrow();
                                  assertEquals("setId", setter.getName());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -64,7 +65,8 @@ class PropertyTest
                                  D.Method getter = properties.get(1).getGetter();
                                  assertEquals("isValid", getter.getName());
                                  assertTrue(properties.get(1).getSetter().isEmpty());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -94,7 +96,8 @@ class PropertyTest
                                  assertEquals("getValues", getter.getName());
                                  D.Method setter = properties.get(1).getSetterOrThrow();
                                  assertEquals("setValues", setter.getName());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -124,7 +127,8 @@ class PropertyTest
                                  assertEquals("getsTrangeCase", getter.getName());
                                  D.Method setter = properties.get(1).getSetterOrThrow();
                                  assertEquals("setsTrangeCase", setter.getName());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -154,7 +158,8 @@ class PropertyTest
                                  assertEquals("getNOT_A_CONSTANT", getter.getName());
                                  D.Method setter = properties.get(1).getSetterOrThrow();
                                  assertEquals("setNOT_A_CONSTANT", setter.getName());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -171,7 +176,8 @@ class PropertyTest
 
                                  assertEquals(1, properties.size());
                                  assertEquals("class", properties.get(0).getName());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -191,7 +197,8 @@ class PropertyTest
                                  D.Method getter = properties.get(1).getGetter();
                                  D.Declared cDeclared = getter.getSurrounding();
                                  assertEquals("Child", cDeclared.getName());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -215,6 +222,7 @@ class PropertyTest
                                  assertEquals("flag", field.getName());
                                  D.QualifiedNameable fieldType = (D.QualifiedNameable) field.getType();
                                  assertEquals("java.lang.Boolean", fieldType.getQualifiedName());
-                              });
+                              })
+                     .run();
    }
 }

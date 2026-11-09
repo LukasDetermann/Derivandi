@@ -47,7 +47,8 @@ class MethodTest
                                  assertTrue(four.sameParameterTypes(five));
                                  assertTrue(six.sameParameterTypes(seven));
                                  assertFalse(seven.sameParameterTypes(six));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -72,7 +73,8 @@ class MethodTest
 
                                  assertTrue(method.overrides(superMethod));
                                  assertFalse(method.overrides(otherMethod));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -89,7 +91,8 @@ class MethodTest
                                                            .collect(joining());
 
                                  assertEquals("args", parameters);
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -103,7 +106,8 @@ class MethodTest
                                  D.Class example = context.getClassOrThrow("MethodExample");
                                  D.Method method = example.getMethods("varArgsMethod").get(0);
                                  assertEquals(List.of(stringArray), method.getParameterTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -117,7 +121,8 @@ class MethodTest
                                  D.Type returnType = toString.getResultType();
                                  assertEquals(string, returnType);
                                  assertNotEquals(aLong, returnType);
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -132,7 +137,8 @@ class MethodTest
 
                                  assertEquals(emptyList(), toString.getThrows());
                                  assertEquals(List.of(interruptedException), wait.getThrows());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -143,7 +149,8 @@ class MethodTest
                                  D.Class object = context.getClassOrThrow("java.lang.Object");
                                  D.Method toString = object.getMethods("toString").get(0);
                                  assertFalse(toString.isVarArgs());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -155,7 +162,8 @@ class MethodTest
                                  D.Class object = context.getClassOrThrow("MethodExample");
                                  D.Method method = object.getMethods("varArgsMethod").get(0);
                                  assertTrue(method.isVarArgs());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -175,7 +183,8 @@ class MethodTest
                                  D.Class example = context.getClassOrThrow("MethodExample");
                                  D.Method toString = example.getMethods("toString").get(0);
                                  assertEquals(example, toString.getSurrounding());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -202,6 +211,7 @@ class MethodTest
 
                                  D.Method method = example.getMethods("receiver").get(0);
                                  assertEquals(example, method.getReceiverType().orElseThrow());
-                              });
+                              })
+                     .run();
    }
 }

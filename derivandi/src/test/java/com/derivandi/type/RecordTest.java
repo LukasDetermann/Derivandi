@@ -46,7 +46,8 @@ class RecordTest
                                                      .withGenerics("java.lang.String",
                                                                    "java.lang.Number")
                                                      .getGenericUsages());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -91,7 +92,8 @@ class RecordTest
                                                                         .map(D.Generic::getBound)
                                                                         .orElseThrow();
                                  assertEquals(context.getClassOrThrow("java.lang.String"), interpolatedDependent);
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -108,7 +110,8 @@ class RecordTest
                                  assertEquals(cLong, id.getType());
 
                                  assertThrows(NoSuchElementException.class, () -> example.getRecordComponentOrThrow("asdf"));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -121,7 +124,8 @@ class RecordTest
                                  D.Interface serializable = context.getInterfaceOrThrow("java.io.Serializable");
 
                                  assertEquals(List.of(serializable), example.getDirectInterfaces());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -137,7 +141,8 @@ class RecordTest
                                  assertTrue(example.isSubtypeOf(cRecord));
                                  assertTrue(example.isSubtypeOf(example));
                                  assertFalse(example.isSubtypeOf(number));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -163,7 +168,8 @@ class RecordTest
 
                                  D.Record multiParent = context.getRecordOrThrow("RecordMultiParent");
                                  assertEquals(List.of(cRecord, consumer, supplier), multiParent.getDirectSuperTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -191,11 +197,12 @@ class RecordTest
 
                                  D.Record multiParent = context.getRecordOrThrow("RecordMultiParent");
                                  assertEquals(Set.of(object, cRecord, consumer, supplier), multiParent.getSuperTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
-   void getSurounding()
+   void getSurrounding()
    {
       processorTest().withCodeToCompile("Outer.java", """
                                                       public record Outer() {
@@ -207,6 +214,7 @@ class RecordTest
                                  D.Declared inner = context.getDeclaredOrThrow("Outer.Inner");
                                  D.Declared outer = inner.getSurrounding().orElseThrow();
                                  assertEquals(context.getDeclaredOrThrow("Outer"), outer);
-                              });
+                              })
+                     .run();
    }
 }

@@ -48,7 +48,8 @@ class TypesafeUsageGeneratorTest
                                        "date = \"1970-01-01T00:00:00.0000000\")");
 
                                  assertEquals(EXPECTED, withTimeVariance);
-                              });
+                              })
+                     .run();
    }
 
    private static final String EXPECTED = """

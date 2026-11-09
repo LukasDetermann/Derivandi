@@ -18,7 +18,8 @@ class EnumConstantTest
                                  D.Enum retentionPolicy = context.getEnumOrThrow("java.lang.annotation.RetentionPolicy");
                                  D.EnumConstant source = retentionPolicy.getEnumConstantOrThrow("SOURCE");
                                  Assertions.assertEquals(retentionPolicy, source.getSurrounding());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -33,7 +34,8 @@ class EnumConstantTest
                                                                             .getValueOrThrow("value")).getValue().getName());
 
                                  Assertions.assertEquals(RetentionPolicy.RUNTIME, value);
-                              });
+                              })
+                     .run();
    }
 
 
@@ -58,6 +60,7 @@ class EnumConstantTest
                                  D.EnumConstant value = ((D.NestedAnnotationValue.EnumValue) retentionUsage.getValueOrThrow("value")).getValue();
 
                                  Assertions.assertEquals("A", value.getName());
-                              });
+                              })
+                     .run();
    }
 }

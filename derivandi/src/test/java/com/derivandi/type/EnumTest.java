@@ -23,7 +23,8 @@ class EnumTest
                                  assertTrue(retentionPolicy.isSubtypeOf(object));
                                  assertTrue(retentionPolicy.isSubtypeOf(retentionPolicy));
                                  assertFalse(retentionPolicy.isSubtypeOf(number));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -51,7 +52,8 @@ class EnumTest
 
                                  D.Enum multiParent = context.getEnumOrThrow("EnumMultiParent");
                                  assertEquals(List.of(cEnum, consumer, supplier), multiParent.getDirectSuperTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -84,11 +86,12 @@ class EnumTest
                                  D.Enum multiParent = context.getEnumOrThrow("EnumMultiParent");
                                  assertEquals(Set.of(object, constable, comparable, serializable, cEnum, consumer, supplier),
                                               multiParent.getSuperTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
-   void getSurounding()
+   void getSurrounding()
    {
       processorTest().withCodeToCompile("Outer.java", """
                                                       public enum Outer {
@@ -101,6 +104,7 @@ class EnumTest
                                  D.Declared inner = context.getDeclaredOrThrow("Outer.Inner");
                                  D.Declared outer = inner.getSurrounding().orElseThrow();
                                  assertEquals(context.getDeclaredOrThrow("Outer"), outer);
-                              });
+                              })
+                     .run();
    }
 }

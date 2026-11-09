@@ -25,7 +25,8 @@ class WildcardTest
                                  D.Wildcard wildcard = (D.Wildcard) parameterType.getGenericUsages().get(0);
 
                                  assertEquals(context.getClassOrThrow("java.lang.Number"), wildcard.getExtends().orElseThrow());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -45,6 +46,7 @@ class WildcardTest
                                  D.Wildcard wildcard = (D.Wildcard) parameterType.getGenericUsages().get(0);
 
                                  assertEquals(context.getClassOrThrow("java.lang.Number"), wildcard.getSuper().orElseThrow());
-                              });
+                              })
+                     .run();
    }
 }

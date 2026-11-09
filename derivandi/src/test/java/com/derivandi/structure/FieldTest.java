@@ -18,7 +18,8 @@ class FieldTest
                                  D.Class example = context.getClassOrThrow("FieldExample");
                                  D.Field field = example.getFieldOrThrow("ID");
                                  assertEquals(example, field.getSurrounding());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -30,7 +31,8 @@ class FieldTest
                                  D.Class example = context.getClassOrThrow("FieldExample");
                                  D.Field field = example.getFieldOrThrow("ID");
                                  assertTrue(field.isConstant());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -42,6 +44,7 @@ class FieldTest
                                  D.Class example = context.getClassOrThrow("FieldExample");
                                  D.Field field = example.getFieldOrThrow("ID");
                                  assertEquals(2, field.getConstantValueOrThrow());
-                              });
+                              })
+                     .run();
    }
 }

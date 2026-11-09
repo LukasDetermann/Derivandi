@@ -26,7 +26,8 @@ class ResultTest
                                  D.Result cReturn = method.getResult();
 
                                  assertEquals(integer, cReturn.getType());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -49,6 +50,7 @@ class ResultTest
                                  assertEquals(1, usages.size());
                                  D.AnnotationValue annotationValue = usages.get(0).getValueOrThrow("value");
                                  assertEquals(2, annotationValue.getValue());
-                              });
+                              })
+                     .run();
    }
 }

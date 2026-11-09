@@ -19,7 +19,8 @@ class AnnotationableTest
                                  D.Declared cDeclared = context.getDeclaredOrThrow("NotAnnotated");
                                  assertTrue(cDeclared.getAnnotationUsages().isEmpty());
                                  assertTrue(cDeclared.getDirectAnnotationUsages().isEmpty());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -53,6 +54,7 @@ class AnnotationableTest
 
                                  assertTrue(cDeclared.getFirstUsageOf(standaloneAnnotation).isEmpty());
                                  assertTrue(cDeclared.getFirstUsageOf(inheritedAnnotation).isPresent());
-                              });
+                              })
+                     .run();
    }
 }

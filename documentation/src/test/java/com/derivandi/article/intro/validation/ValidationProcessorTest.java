@@ -25,6 +25,7 @@ class ValidationProcessorTest
       Assertions.assertDoesNotThrow(() -> processorTest().withCodeToCompile(DIR.resolve("MyInterface.java"))
                                                          .withCodeToCompile(DIR.resolve("StaticInterface.java"))
                                                          .withCodeToCompile(DIR.resolve("MyC1ass.java"))
-                                                         .process(new ValidationProcessor()));
+                                                         .process(new ValidationProcessor())
+                                                         .run());
    }
 }

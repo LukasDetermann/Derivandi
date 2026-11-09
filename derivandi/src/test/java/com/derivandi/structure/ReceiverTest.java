@@ -28,7 +28,8 @@ class ReceiverTest
                                  D.Receiver cReceiver = cConstructor.getReceiverOrThrow();
 
                                  assertEquals(outer, cReceiver.getType());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -56,6 +57,7 @@ class ReceiverTest
                                  assertEquals(1, usages.size());
                                  D.AnnotationValue annotationValue = usages.get(0).getValueOrThrow("value");
                                  assertEquals(2, annotationValue.getValue());
-                              });
+                              })
+                     .run();
    }
 }

@@ -22,7 +22,8 @@ class DeclaredTest
                                  D.Interface comparable = context.getInterfaceOrThrow("java.lang.Comparable");
                                  D.Generic generics = comparable.getGenericDeclarations().get(0);
                                  assertEquals("T", generics.getName());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -36,7 +37,8 @@ class DeclaredTest
 
                                  D.Class inner = context.getClassOrThrow("NestingExample.Inner");
                                  assertEquals(INNER, inner.getNesting());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -47,7 +49,8 @@ class DeclaredTest
                                  D.Class math = context.getClassOrThrow("java.lang.Math");
                                  D.Field e = math.getFieldOrThrow("E");
                                  assertEquals(2.7182818284590452354D, e.getConstantValueOrThrow());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -62,7 +65,8 @@ class DeclaredTest
                                                               .map(D.Nameable::getName)
                                                               .toList();
                                  assertEquals(Arrays.asList("a", "b", "C"), fields);
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -78,7 +82,8 @@ class DeclaredTest
                                                          .map(D.Nameable::getName)
                                                          .collect(Collectors.joining(", "));
                                  assertEquals("fooMethod, toString", methods);
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -89,7 +94,8 @@ class DeclaredTest
                               {
                                  D.Class cClass = context.getClassOrThrow("Test");
                                  assertEquals(1, cClass.getConstructors().size());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -100,7 +106,8 @@ class DeclaredTest
                                  D.Class object = context.getClassOrThrow("java.lang.Object");
                                  D.Package cPackage = object.getPackage();
                                  assertEquals("java.lang", cPackage.getQualifiedName());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -113,6 +120,7 @@ class DeclaredTest
 
                                  D.Class randomNumberGeneratorHolder = context.getClassOrThrow("java.lang.Math.RandomNumberGeneratorHolder");
                                  assertEquals("java.lang.Math$RandomNumberGeneratorHolder", randomNumberGeneratorHolder.getBinaryName());
-                              });
+                              })
+                     .run();
    }
 }

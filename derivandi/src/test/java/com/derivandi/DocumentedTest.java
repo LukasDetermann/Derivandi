@@ -46,6 +46,7 @@ class DocumentedTest
                                  assertEquals(" Class level doc\n", aClass.getJavaDoc().orElseThrow());
                                  assertEquals(" Method level doc\n", aClass.getMethods("toString").get(0).getJavaDoc().orElseThrow());
                                  assertEquals(" Constructor level doc\n", aClass.getConstructors().get(0).getJavaDoc().orElseThrow());
-                              });
+                              })
+                     .run();
    }
 }

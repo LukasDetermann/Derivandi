@@ -19,7 +19,8 @@ class RecordComponentTest
                                  D.Record example = context.getRecordOrThrow("RecordComponentExample");
                                  D.RecordComponent id = example.getRecordComponentOrThrow("id");
                                  assertTrue(id.isSubtypeOf(number));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -31,7 +32,8 @@ class RecordComponentTest
                                  D.Record example = context.getRecordOrThrow("RecordComponentExample");
                                  D.RecordComponent id = example.getRecordComponentOrThrow("id");
                                  assertTrue(id.isAssignableFrom(context.getConstants().getPrimitiveLong()));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -43,7 +45,8 @@ class RecordComponentTest
                                  D.Record example = context.getRecordOrThrow("RecordComponentExample");
                                  D.RecordComponent id = example.getRecordComponentOrThrow("id");
                                  assertEquals(example, id.getRecord());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -57,6 +60,7 @@ class RecordComponentTest
                                  D.Record example = context.getRecordOrThrow("RecordComponentExample");
                                  D.RecordComponent id = example.getRecordComponentOrThrow("id");
                                  assertEquals(cLong, id.getType());
-                              });
+                              })
+                     .run();
    }
 }

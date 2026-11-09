@@ -26,7 +26,8 @@ class ArrayTest
                                  D.Interface iterable = context.getInterfaceOrThrow("java.lang.Iterable");
                                  D.Array iterableArray = iterable.asArray();
                                  assertFalse(collectionArray.isSubtypeOf(iterableArray));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -37,7 +38,8 @@ class ArrayTest
                                  D.Class string = context.getClassOrThrow("java.lang.String");
                                  D.Array stringArray = string.asArray();
                                  assertEquals(string, stringArray.getComponentType());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -64,6 +66,7 @@ class ArrayTest
                                  assertEquals(1, intArraySuperTypes.size());
                                  List<D.Type> bounds = ((D.Generic) intArraySuperTypes.get(0)).getBounds();
                                  assertEquals(List.of(serializable, cloneable), bounds);
-                              });
+                              })
+                     .run();
    }
 }

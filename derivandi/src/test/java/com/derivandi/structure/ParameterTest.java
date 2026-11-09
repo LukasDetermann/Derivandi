@@ -31,7 +31,8 @@ class ParameterTest
                                  D.Constructor constructor = example.getConstructors().get(0);
                                  D.Parameter name = constructor.getParameters().get(0);
                                  assertEquals(constructor, name.getSurrounding());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -50,6 +51,7 @@ class ParameterTest
                                  List<D.Parameter> parameters = constructor.getParameters();
                                  assertFalse(parameters.get(0).isVarArgs());
                                  assertTrue(parameters.get(1).isVarArgs());
-                              });
+                              })
+                     .run();
    }
 }

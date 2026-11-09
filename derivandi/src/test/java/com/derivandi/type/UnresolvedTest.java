@@ -32,6 +32,7 @@ class UnresolvedTest
                                  {
                                     assertInstanceOf(D.Class.class, fieldType);
                                  }
-                              });
+                              })
+                     .run();
    }
 }

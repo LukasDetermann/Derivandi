@@ -19,7 +19,8 @@ class GenericTest
                                  D.Class genericsExample = context.getClassOrThrow("GenericsExample");
                                  D.Generic generic = (D.Generic) genericsExample.getGenericUsages().get(0);
                                  assertEquals(number, generic.getBound());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -32,6 +33,7 @@ class GenericTest
                                  D.Class genericsExample = context.getClassOrThrow("GenericsExample");
                                  D.Generic generic = (D.Generic) genericsExample.getGenericUsages().get(0);
                                  assertEquals(genericsExample, generic.getEnclosing());
-                              });
+                              })
+                     .run();
    }
 }

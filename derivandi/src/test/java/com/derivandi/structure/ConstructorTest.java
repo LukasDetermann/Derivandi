@@ -21,7 +21,8 @@ class ConstructorTest
                                  D.Constructor constructor = example.getConstructors().get(0);
 
                                  assertEquals(0, constructor.getParameters().size());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -37,7 +38,8 @@ class ConstructorTest
 
                                  assertEquals(1, parameters.size());
                                  assertEquals(aLong, parameters.get(0).getType());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -51,7 +53,8 @@ class ConstructorTest
                                  D.Constructor constructor = example.getConstructors().get(0);
 
                                  assertEquals(List.of(aLong), constructor.getParameterTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -73,7 +76,8 @@ class ConstructorTest
 
                                  assertEquals(emptyList(), constructors.get(0).getThrows());
                                  assertEquals(List.of(ioException), constructors.get(1).getThrows());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -93,7 +97,8 @@ class ConstructorTest
                                  List<D.Constructor> constructors = example.getConstructors();
                                  assertFalse(constructors.get(0).isVarArgs());
                                  assertTrue(constructors.get(1).isVarArgs());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -113,7 +118,8 @@ class ConstructorTest
                                  D.Class example = context.getClassOrThrow("ConstructorExample");
                                  D.Constructor constructor = example.getConstructors().get(0);
                                  assertEquals(example, constructor.getSurrounding());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -137,6 +143,7 @@ class ConstructorTest
                                  D.Class inner = context.getClassOrThrow("ReceiverExample.Inner");
                                  D.Constructor constructor = inner.getConstructors().get(0);
                                  assertEquals(example, constructor.getReceiverType().orElseThrow());
-                              });
+                              })
+                     .run();
    }
 }

@@ -25,6 +25,7 @@ class IntersectionTest
                                  D.Generic generic = intersectionExample.getGenericDeclarations().get(0);
 
                                  assertEquals(expected, generic.getBounds());
-                              });
+                              })
+                     .run();
    }
 }

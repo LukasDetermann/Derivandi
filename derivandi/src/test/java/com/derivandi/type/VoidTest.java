@@ -10,7 +10,7 @@ class VoidTest
    @Test
    void nonNull()
    {
-      processorTest().process(context -> assertNotNull(context.getConstants().getVoid()));
+      processorTest().process(context -> assertNotNull(context.getConstants().getVoid())).run();
    }
 }
 

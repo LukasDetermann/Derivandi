@@ -26,7 +26,8 @@ abstract class VariableTest
                                  D.Constructor constructor = example.getConstructors().get(0);
                                  D.Parameter parameter = constructor.getParameters().get(0);
                                  assertTrue(parameter.isSubtypeOf(string));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -39,6 +40,7 @@ abstract class VariableTest
                                  D.Class example = context.getClassOrThrow("FieldExample");
                                  D.Field field = example.getFields().get(0);
                                  assertTrue(field.isAssignableFrom(integer));
-                              });
+                              })
+                     .run();
    }
 }

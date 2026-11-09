@@ -30,6 +30,7 @@ class PackageTest
                                                              .get(0);
 
                                  assertEquals(List.of(anyClass), cPackage.getDeclared());
-                              });
+                              })
+                     .run();
    }
 }

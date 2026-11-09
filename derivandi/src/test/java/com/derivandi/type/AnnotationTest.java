@@ -23,7 +23,8 @@ class AnnotationTest
                                  assertTrue(overwrite.isSubtypeOf(annotation));
                                  assertTrue(overwrite.isSubtypeOf(overwrite));
                                  assertFalse(overwrite.isSubtypeOf(number));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -41,7 +42,8 @@ class AnnotationTest
 
                                  D.Annotation annotation = context.getAnnotationOrThrow("DirektSuperTypeExample.AnnotationNoParent");
                                  assertEquals(expected, annotation.getDirectSuperTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -59,11 +61,12 @@ class AnnotationTest
 
                                  D.Annotation annotation = context.getAnnotationOrThrow("DirektSuperTypeExample.AnnotationNoParent");
                                  assertEquals(expected, annotation.getSuperTypes());
-                              });
+                              })
+                     .run();
    }
 
    @Test
-   void getSurounding()
+   void getSurrounding()
    {
       processorTest().withCodeToCompile("Outer.java", """
                                                       public @interface Outer {
@@ -75,6 +78,7 @@ class AnnotationTest
                                  D.Declared inner = context.getDeclaredOrThrow("Outer.Inner");
                                  D.Declared outer = inner.getSurrounding().orElseThrow();
                                  assertEquals(context.getDeclaredOrThrow("Outer"), outer);
-                              });
+                              })
+                     .run();
    }
 }

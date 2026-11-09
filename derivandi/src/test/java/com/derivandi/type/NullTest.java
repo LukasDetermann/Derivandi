@@ -10,6 +10,6 @@ class NullTest
    @Test
    void nonNull()
    {
-      processorTest().process(context -> assertNotNull(context.getConstants().getNull()));
+      processorTest().process(context -> assertNotNull(context.getConstants().getNull())).run();
    }
 }

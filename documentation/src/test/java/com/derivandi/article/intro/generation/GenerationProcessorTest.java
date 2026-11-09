@@ -25,6 +25,7 @@ public class GenerationProcessorTest
       Assertions.assertDoesNotThrow(() -> processorTest().withCodeToCompile(DIR.resolve("Proxy.java"))
                                                          .withCodeToCompile(DIR.resolve("MapProxy.java"))
                                                          .withCodeToCompile(DIR.resolve("Delegate.java"))
-                                                         .process(new GenerationProcessor()));
+                                                         .process(new GenerationProcessor())
+                                                         .run());
    }
 }

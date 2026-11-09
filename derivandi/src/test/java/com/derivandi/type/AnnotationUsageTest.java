@@ -29,7 +29,8 @@ class AnnotationUsageTest
                                  D.AnnotationUsage defaultValues = cClass.getAnnotationUsages().get(0);
 
                                  assertEquals("string Value", defaultValues.getValueOrThrow("stingValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -51,7 +52,8 @@ class AnnotationUsageTest
                                  D.AnnotationUsage defaultValues = cClass.getAnnotationUsages().get(0);
 
                                  assertEquals(false, defaultValues.getValueOrThrow("booleanValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -73,7 +75,8 @@ class AnnotationUsageTest
                                  D.AnnotationUsage defaultValues = cClass.getAnnotationUsages().get(0);
 
                                  assertEquals((byte) 1, defaultValues.getValueOrThrow("byteValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -95,7 +98,8 @@ class AnnotationUsageTest
                                  D.AnnotationUsage defaultValues = cClass.getAnnotationUsages().get(0);
 
                                  assertEquals((short) 2, defaultValues.getValueOrThrow("shortValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -117,7 +121,8 @@ class AnnotationUsageTest
                                  D.AnnotationUsage defaultValues = cClass.getAnnotationUsages().get(0);
 
                                  assertEquals(3, defaultValues.getValueOrThrow("intValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -139,7 +144,8 @@ class AnnotationUsageTest
                                  D.AnnotationUsage defaultValues = cClass.getAnnotationUsages().get(0);
 
                                  assertEquals(4L, defaultValues.getValueOrThrow("longValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -161,7 +167,8 @@ class AnnotationUsageTest
                                  D.AnnotationUsage defaultValues = cClass.getAnnotationUsages().get(0);
 
                                  assertEquals('a', defaultValues.getValueOrThrow("charValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -183,7 +190,8 @@ class AnnotationUsageTest
                                  D.AnnotationUsage defaultValues = cClass.getAnnotationUsages().get(0);
 
                                  assertEquals(5f, defaultValues.getValueOrThrow("floatValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -205,7 +213,8 @@ class AnnotationUsageTest
                                  D.AnnotationUsage defaultValues = cClass.getAnnotationUsages().get(0);
 
                                  assertEquals(6D, defaultValues.getValueOrThrow("doubleValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -228,7 +237,8 @@ class AnnotationUsageTest
 
                                  assertEquals(context.getClassOrThrow("java.lang.String"),
                                               defaultValues.getValueOrThrow("typeValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -254,7 +264,8 @@ class AnnotationUsageTest
                                  D.Enum elementType = context.getEnumOrThrow("java.lang.annotation.ElementType");
                                  D.EnumConstant annotationType = elementType.getEnumConstantOrThrow("ANNOTATION_TYPE");
                                  assertEquals(annotationType, defaultValues.getValueOrThrow("enumValue").getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -285,7 +296,8 @@ class AnnotationUsageTest
                                                                                                    .getValue();
                                  D.AnnotationValue defaultRetentionValue = defaultUsage.getValueOrThrow("value");
                                  assertEquals(classPolicy, defaultRetentionValue.getValue());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -310,7 +322,8 @@ class AnnotationUsageTest
                                  List<D.AnnotationValue> values = (List<D.AnnotationValue>) defaultValues.getValueOrThrow("asListOfValues")
                                                                                                          .getValue();
                                  List<Object> list = values.stream().map(D.AnnotationValue::getValue).toList();
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -350,7 +363,8 @@ class AnnotationUsageTest
                                  assertTrue(defaultValues.getValues().values()
                                                          .stream()
                                                          .allMatch(D.AnnotationValue::isDefault));
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -376,6 +390,7 @@ class AnnotationUsageTest
                                  D.AnnotationValue annotationValue = overwrittenStringValue.getValueOrThrow("stingValue");
                                  assertFalse(annotationValue.isDefault());
                                  assertEquals("custom Value", annotationValue.getValue());
-                              });
+                              })
+                     .run();
    }
 }

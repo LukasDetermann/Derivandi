@@ -20,7 +20,8 @@ class ModuleTest
                               {
                                  D.Module module = context.getModuleOrThrow("java.logging");
                                  Assertions.assertEquals(context.getPackage("java.util.logging"), module.getPackages());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -30,7 +31,8 @@ class ModuleTest
                               {
                                  D.Module module = context.getModuleOrThrow("java.logging");
                                  assertFalse(module.isOpen());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -40,7 +42,8 @@ class ModuleTest
                               {
                                  D.Module module = context.getModuleOrThrow("java.logging");
                                  assertFalse(module.isUnnamed());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -50,7 +53,8 @@ class ModuleTest
                               {
                                  D.Module module = context.getModuleOrThrow("java.logging");
                                  assertFalse(module.isAutomatic());
-                              });
+                              })
+                     .run();
    }
 
    @Test
@@ -67,6 +71,7 @@ class ModuleTest
                                                     .stream()
                                                     .map(Objects::toString)
                                                     .collect(joining(", ")));
-                              });
+                              })
+                     .run();
    }
 }

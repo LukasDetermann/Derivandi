@@ -22,7 +22,8 @@ class BuilderTest
    {
       assertDoesNotThrow(() -> processorTest().withCodeToCompile(DIR.resolve("BuilderPattern.java"))
                                               .withCodeToCompile(DIR.resolve("Customer.java"))
-                                              .process(new DerivandiBuilderProcessor()));
+                                              .process(new DerivandiBuilderProcessor())
+                                              .run());
    }
 
    @Test
@@ -30,6 +31,7 @@ class BuilderTest
    {
       assertDoesNotThrow(() -> processorTest().withCodeToCompile(DIR.resolve("BuilderPattern.java"))
                                               .withCodeToCompile(DIR.resolve("Customer.java"))
-                                              .process(new JdkBuilderProcessor()));
+                                              .process(new JdkBuilderProcessor())
+                                              .run());
    }
 }
