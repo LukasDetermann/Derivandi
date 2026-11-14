@@ -155,7 +155,7 @@ public class TypesafeUsageGenerator
       VariableTypeRenderable accessorType = createAccessorType(method.getResultType());
       if (method.getResultType() instanceof D.Array array)
       {
-         String start = "return ((D.AnnotationValue.Values<?>) %s.getValueOrThrow(\"%s\")).getValue().stream()".formatted(fieldName, method.getName());
+         String start = "return (List) ((D.AnnotationValue.Values<?>) %s.getValueOrThrow(\"%s\")).getValue().stream()".formatted(fieldName, method.getName());
          return method().public_().resultType(accessorType)
                         .name(method.getName())
                         .body(start + listType(array.getComponentType()) + ".toList();");

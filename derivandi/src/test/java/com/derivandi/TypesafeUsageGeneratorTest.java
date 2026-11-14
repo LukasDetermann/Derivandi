@@ -177,7 +177,7 @@ class TypesafeUsageGeneratorTest
                                              }
                                           
                                              public List<int> values() {
-                                                return ((D.AnnotationValue.Values<?>) myAnnotation.getValueOrThrow("values")).getValue().stream().map(D.NestedAnnotationValue.IntegerValue.class::cast).map(D.NestedAnnotationValue.IntegerValue::getValue).toList();
+                                                return (List) ((D.AnnotationValue.Values<?>) myAnnotation.getValueOrThrow("values")).getValue().stream().map(D.NestedAnnotationValue.IntegerValue.class::cast).map(D.NestedAnnotationValue.IntegerValue::getValue).toList();
                                              }
                                           
                                              public D.AnnotationValue.Values<D.AnnotationValue.IntegerValue> valuesValue() {
